@@ -1,0 +1,10 @@
+<Solution>
+  <Folder Name="/src/">
+    <Project Path="src/StayNest.Api/StayNest.Api.csproj" />
+    <Project Path="src/StayNest.Application/StayNest.Application.csproj" />
+    <Project Path="src/StayNest.Domain/StayNest.Domain.csproj" />
+    <Project Path="src/StayNest.Infrastructure/StayNest.Infrastructure.csproj" />
+    <Project Path="src/StayNest.SharedKernel/StayNest.SharedKernel.csproj" />
+  </Folder>
+  <Folder Name="/tests/" />
+</Solution>
