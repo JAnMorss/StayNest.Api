@@ -1,6 +1,7 @@
 ﻿using StayNest.Domain.Favorites.Entities;
 using StayNest.Domain.Listings.Entities;
 using StayNest.Domain.Reservations.Entities;
+using StayNest.Domain.Shared.ValueObjects;
 using StayNest.Domain.Users.ValueObjects;
 using StayNest.SharedKernel.Domain;
 
@@ -16,11 +17,11 @@ public sealed class User : BaseEntity
     private User() { }
     public User(
         Guid id, 
-        Name? name, 
-        string? email, 
+        Name? name,
+        Email? email, 
         DateTime? emailVerified,
-        string? image, 
-        string? hashedPassword
+        Image? image,
+        HashedPassword? hashedPassword
     ) : base(id)
     {
         Name = name;
@@ -33,22 +34,22 @@ public sealed class User : BaseEntity
     }
 
     public Name? Name {  get; private set; } 
-    public string? Email { get; private set; }
+    public Email? Email { get; private set; }
     public DateTime? EmailVerified { get; private set; }
-    public string? Image { get; private set; }
-    public string? HashedPassword { get; private set; }
+    public Image? Image { get; private set; }
+    public HashedPassword? HashedPassword { get; private set; }
     public DateTime CreatedAt { get; private set; }
     public DateTime? UpdatedAt { get; private set; }
 
     public IReadOnlyCollection<RefreshToken> RefreshTokens 
         => _refreshTokens.AsReadOnly();
 
-    //public IReadOnlyCollection<Favorite> Favorites 
-    //    => _favorites.AsReadOnly();
+    public IReadOnlyCollection<Favorite> Favorites
+        => _favorites.AsReadOnly();
 
     public IReadOnlyCollection<Listing> Listings
         => _listings.AsReadOnly();
 
-    //public IReadOnlyCollection<Reservation> Reservations 
-    //    => _reservations.AsReadOnly();
+    public IReadOnlyCollection<Reservation> Reservations
+        => _reservations.AsReadOnly();
 }
