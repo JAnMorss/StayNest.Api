@@ -12,6 +12,8 @@ public sealed class Name : ValueObject
         Value = value;
     }
 
+    public string Value { get; }
+
     public static Result<Name> Create(string name)
     {
         if (string.IsNullOrWhiteSpace(name))
@@ -32,8 +34,6 @@ public sealed class Name : ValueObject
 
         return Result.Success(new Name(name));
     }
-
-    public string Value { get; }
 
     public override IEnumerable<object> GetAtomicValues()
     {
