@@ -1,4 +1,6 @@
 ﻿using StayNest.Domain.Listings.ValueObjects;
+using StayNest.Domain.Reservations.Entities;
+using StayNest.Domain.Shared.ValueObjects;
 using StayNest.Domain.Users.Entities;
 using StayNest.SharedKernel.Domain;
 
@@ -6,46 +8,50 @@ namespace StayNest.Domain.Listings.Entities;
 
 public sealed class Listing : BaseEntity
 {
-    private Listing() { }
+    private readonly List<Reservation> _reservations = new();
 
+    private Listing() { }
     public Listing(
         Guid id,
+        Guid userId,
         Title title,
-        string description,
-        string imageSrc,
-        string category,
-        int roomCount,
-        int bathroomCount,
-        int guestCount,
-        string locationValue,
-        int price,
-        Guid userId
+        Description description,
+        Image imageSrc,
+        Category category,
+        RoomCount roomCount,
+        BathroomCount bathroomCount,
+        GuestCount guestCount,
+        LocationValue locationValue,
+        Price price
         ) : base(id)
     {
+        UserId = userId;
         Title = title;
         Description = description;
         ImageSrc = imageSrc;
-        CreatedAt = DateTime.UtcNow;
         Category = category;
         RoomCount = roomCount;
         BathroomCount = bathroomCount;
         GuestCount = guestCount;
         LocationValue = locationValue;
         Price = price;
-        UserId = userId;
+        CreatedAt = DateTime.UtcNow;
     }
 
-    public Title Title { get; private set; }
-    public string Description { get; private set; }
-    public string ImageSrc { get; private set; }
-    public DateTime CreatedAt { get; private set; }
-    public string Category { get; private set; }
-    public int RoomCount { get; private set; }
-    public int BathroomCount { get; private set; }
-    public int GuestCount { get; private set; }
-    public string LocationValue { get; private set; }
-    public int Price { get; private set; }
-
     public Guid UserId { get; private set; }
+    public Title Title { get; private set; } = null!;
+    public Description Description { get; private set; } = null!;
+    public Image ImageSrc { get; private set; } = null!;
+    public Category Category { get; private set; } = null!;
+    public RoomCount RoomCount { get; private set; } = null!;
+    public BathroomCount BathroomCount { get; private set; } = null!;
+    public GuestCount GuestCount { get; private set; } = null!;
+    public LocationValue LocationValue { get; private set; } = null!;
+    public Price Price { get; private set; } = null!;
+    public DateTime CreatedAt { get; private set; }
+
     public User User { get; private set; } = null!;
+
+    public IReadOnlyCollection<Reservation> Reservations
+        => _reservations.AsReadOnly();
 }
