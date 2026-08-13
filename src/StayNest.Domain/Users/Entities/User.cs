@@ -15,7 +15,7 @@ public sealed class User : BaseEntity
     private readonly List<Favorite> _favorites = new();
 
     private User() { }
-    public User(
+    private User(
         Guid id, 
         Name? name,
         Email? email, 
