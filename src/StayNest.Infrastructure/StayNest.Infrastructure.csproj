@@ -6,4 +6,19 @@
     <Nullable>enable</Nullable>
   </PropertyGroup>
 
+  <ItemGroup>
+    <PackageReference Include="Asp.Versioning.Http" Version="10.2.2" />
+    <PackageReference Include="Asp.Versioning.Mvc" Version="10.2.1" />
+    <PackageReference Include="Asp.Versioning.Mvc.ApiExplorer" Version="10.2.1" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore" Version="10.0.11" />
+    <PackageReference Include="Microsoft.Extensions.Configuration.Abstractions" Version="10.0.11" />
+    <PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="10.0.11" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\StayNest.Application\StayNest.Application.csproj" />
+    <ProjectReference Include="..\StayNest.Domain\StayNest.Domain.csproj" />
+    <ProjectReference Include="..\StayNest.SharedKernel\StayNest.SharedKernel.csproj" />
+  </ItemGroup>
+
 </Project>
