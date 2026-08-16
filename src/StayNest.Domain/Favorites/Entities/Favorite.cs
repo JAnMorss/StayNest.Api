@@ -16,4 +16,6 @@ public sealed class Favorite
     public Guid ListingId { get; private set; }
     public User User { get; private set; } = null!;
     public Listing Listing { get; private set; } = null!;
+
+
 }
