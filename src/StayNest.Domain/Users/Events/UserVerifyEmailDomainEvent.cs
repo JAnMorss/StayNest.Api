@@ -2,4 +2,4 @@
 
 namespace StayNest.Domain.Users.Events;
 
-public sealed record UserVerifyEmailDomainEvent(Guid Id) : IDomainEvent;
+public sealed record UserVerifyEmailDomainEvent(Guid UserId) : IDomainEvent;

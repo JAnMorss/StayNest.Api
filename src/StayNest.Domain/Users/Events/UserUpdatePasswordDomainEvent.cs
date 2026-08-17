@@ -2,4 +2,4 @@
 
 namespace StayNest.Domain.Users.Events;
 
-public sealed record UserUpdatePasswordDomainEvent(Guid Id) : IDomainEvent;
+public sealed record UserUpdatePasswordDomainEvent(Guid UserId) : IDomainEvent;
