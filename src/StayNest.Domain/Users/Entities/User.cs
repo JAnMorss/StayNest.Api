@@ -7,7 +7,6 @@ using StayNest.Domain.Users.Events;
 using StayNest.Domain.Users.ValueObjects;
 using StayNest.SharedKernel.Domain;
 using StayNest.SharedKernel.ErrorHandling;
-using System.Net.Mail;
 
 namespace StayNest.Domain.Users.Entities;
 
@@ -106,7 +105,7 @@ public sealed class User : BaseEntity
         if (email is null)
             return Result.Failure(UserErrors.InvalidEmail);
 
-        if (email.Equals(Email))
+        if (email == Email)
             return Result.Failure(UserErrors.NoChangesDetected);
 
         Email = email;
@@ -159,8 +158,7 @@ public sealed class User : BaseEntity
 
     public void RemoveFavorite(Guid listingId)
     {
-        _favorites.RemoveAll(x =>
-            x.ListingId == listingId);
+        _favorites.RemoveAll(x => x.ListingId == listingId);
     }
 
     public void AddRole(Role role)
