@@ -5,16 +5,16 @@ namespace StayNest.Domain.Shared.ValueObjects;
 
 public sealed class Price : ValueObject
 {
-    private Price(decimal value)
+    private Price(decimal amount)
     {
-        Value = value;
+        Amount = amount;
     }
 
-    public decimal Value { get; }
+    public decimal Amount { get; }
 
-    public static Result<Price> Create(decimal price)
+    public static Result<Price> Create(decimal amount)
     {
-        if (price <= 0)
+        if (amount <= 0)
         {
             return Result.Failure<Price>(new Error(
                 "Price.Invalid",
@@ -22,11 +22,11 @@ public sealed class Price : ValueObject
             ));
         }
 
-        return Result.Success(new Price(price));
+        return Result.Success(new Price(amount));
     }
 
     public override IEnumerable<object> GetAtomicValues()
     {
-        yield return Value;
+        yield return Amount;
     }
 }
