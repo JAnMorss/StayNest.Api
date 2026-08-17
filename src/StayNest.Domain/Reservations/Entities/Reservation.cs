@@ -13,23 +13,20 @@ public sealed class Reservation : BaseEntity
         Guid id,
         Guid userId,
         Guid listingId,
-        DateTime startDate, 
-        DateTime endDate,
+        DateRange period,
         Price totalPrice
     ) : base(id)
     {
         UserId = userId;
         ListingId = listingId;
-        StartDate = startDate;
-        EndDate = endDate;
+        Period = period;
         TotalPrice = totalPrice;
         CreatedAt = DateTime.UtcNow;
     }
 
     public Guid UserId { get; private set; }
     public Guid ListingId { get; private set; }
-    public DateTime StartDate { get; private set; }
-    public DateTime EndDate { get; private set; }
+    public DateRange Period { get; private set; } = null!;
     public Price TotalPrice { get; private set; }
     public DateTime CreatedAt { get; private set; }
 
