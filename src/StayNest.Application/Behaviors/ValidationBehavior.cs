@@ -2,7 +2,7 @@
 using MediatR;
 using Microsoft.Extensions.Logging;
 using StayNest.SharedKernel.Exceptions;
-using StayNest.SharedKernel.Mediators.Command;
+using StayNest.SharedKernel.Messaging.Command;
 
 namespace StayNest.Application.Behaviors;
 
