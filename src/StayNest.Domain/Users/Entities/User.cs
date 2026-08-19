@@ -12,7 +12,6 @@ namespace StayNest.Domain.Users.Entities;
 
 public sealed class User : BaseEntity
 {
-    private readonly List<RefreshToken> _refreshTokens = new();
     private readonly List<Listing> _listings = new();
     private readonly List<Reservation> _reservations = new();
     private readonly List<Favorite> _favorites = new();
@@ -47,10 +46,6 @@ public sealed class User : BaseEntity
 
     public IReadOnlyCollection<Role> Roles
         => _roles.AsReadOnly();
-
-    public IReadOnlyCollection<RefreshToken> RefreshTokens 
-        => _refreshTokens.AsReadOnly();
-
     public IReadOnlyCollection<Favorite> Favorites
         => _favorites.AsReadOnly();
 
