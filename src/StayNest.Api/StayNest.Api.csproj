@@ -1,4 +1,4 @@
-<Project Sdk="Microsoft.NET.Sdk.Web">
+﻿<Project Sdk="Microsoft.NET.Sdk.Web">
 
   <PropertyGroup>
     <TargetFramework>net10.0</TargetFramework>
@@ -14,10 +14,18 @@
     <PackageReference Include="Microsoft.OpenApi" Version="2.7.5" />
     <PackageReference Include="Microsoft.VisualStudio.Azure.Containers.Tools.Targets" Version="1.24.1-preview.1" />
     <PackageReference Include="Serilog.AspNetCore" Version="10.0.0" />
+    <PackageReference Include="Serilog.Sinks.Seq" Version="9.1.0" />
   </ItemGroup>
 
   <ItemGroup>
     <Folder Include="Controllers\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\StayNest.Application\StayNest.Application.csproj" />
+    <ProjectReference Include="..\StayNest.Domain\StayNest.Domain.csproj" />
+    <ProjectReference Include="..\StayNest.Infrastructure\StayNest.Infrastructure.csproj" />
+    <ProjectReference Include="..\StayNest.SharedKernel\StayNest.SharedKernel.csproj" />
   </ItemGroup>
 
 </Project>
