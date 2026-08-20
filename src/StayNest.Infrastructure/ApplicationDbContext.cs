@@ -9,7 +9,10 @@ namespace StayNest.Infrastructure;
 public sealed class ApplicationDbContext : DbContext, IUnitOfWork
 {
     private readonly IPublisher _publisher;
-    public ApplicationDbContext(DbContextOptions options, IPublisher publisher)
+    public ApplicationDbContext(
+        DbContextOptions<ApplicationDbContext> options,
+        IPublisher publisher
+    ) : base(options)
     {
         _publisher = publisher;
     }
