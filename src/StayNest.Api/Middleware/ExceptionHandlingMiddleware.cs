@@ -1,5 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using System.ComponentModel.DataAnnotations;
+using StayNest.SharedKernel.Exceptions;
 
 namespace StayNest.Api.Middleware;
 
