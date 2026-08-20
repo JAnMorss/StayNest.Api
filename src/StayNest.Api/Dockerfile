@@ -13,6 +13,10 @@ FROM mcr.microsoft.com/dotnet/sdk:10.0 AS build
 ARG BUILD_CONFIGURATION=Release
 WORKDIR /src
 COPY ["src/StayNest.Api/StayNest.Api.csproj", "src/StayNest.Api/"]
+COPY ["src/StayNest.Application/StayNest.Application.csproj", "src/StayNest.Application/"]
+COPY ["src/StayNest.Domain/StayNest.Domain.csproj", "src/StayNest.Domain/"]
+COPY ["src/StayNest.SharedKernel/StayNest.SharedKernel.csproj", "src/StayNest.SharedKernel/"]
+COPY ["src/StayNest.Infrastructure/StayNest.Infrastructure.csproj", "src/StayNest.Infrastructure/"]
 RUN dotnet restore "./src/StayNest.Api/StayNest.Api.csproj"
 COPY . .
 WORKDIR "/src/src/StayNest.Api"
