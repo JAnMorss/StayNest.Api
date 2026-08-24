@@ -41,6 +41,7 @@ public sealed class User : BaseEntity
     public DateTime? EmailVerified { get; private set; }
     public Image? Image { get; private set; }
     public HashedPassword? HashedPassword { get; private set; }
+    public string IdentityId { get; private set; } = string.Empty;
     public DateTime CreatedAt { get; private set; }
     public DateTime? UpdatedAt { get; private set; }
 
@@ -171,4 +172,9 @@ public sealed class User : BaseEntity
 
     public void ClearRoles()
         => _roles.Clear();
+
+    public void SetIdentityId(string identityId)
+    {
+        IdentityId = identityId;
+    }
 }
