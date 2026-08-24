@@ -25,10 +25,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Controllers\" />
-  </ItemGroup>
-
-  <ItemGroup>
     <ProjectReference Include="..\StayNest.Application\StayNest.Application.csproj" />
     <ProjectReference Include="..\StayNest.Domain\StayNest.Domain.csproj" />
     <ProjectReference Include="..\StayNest.Infrastructure\StayNest.Infrastructure.csproj" />
