@@ -4,6 +4,8 @@ public sealed class Role : IEquatable<Role>
 {
     public static readonly Role Admin = new(1, "Admin");
 
+    public static readonly Role Registered = new(2, "Registered");
+
     public Role(int id, string name)
     {
         Id = id;
@@ -14,6 +16,8 @@ public sealed class Role : IEquatable<Role>
     public string Name { get; init; }
 
     public ICollection<User> Users { get; init; } = new List<User>();
+
+    public ICollection<Permission> Permissions { get; init; } = new List<Permission>();
 
     public bool Equals(Role? other)
         => other is not null && Id == other.Id;
