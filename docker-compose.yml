@@ -13,8 +13,8 @@ services:
     container_name: StayNest.Db
     environment:
       POSTGRES_DB: staynest
-      POSTGRES_USER: postgres
-      POSTGRES_PASSWORD: postgres
+      POSTGRES_USER: postgres123
+      POSTGRES_PASSWORD: postgres123
     volumes:
       - ./.containers/database:/var/lib/postgresql
     ports:
