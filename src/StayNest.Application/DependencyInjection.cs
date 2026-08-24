@@ -1,7 +1,6 @@
 ﻿using FluentValidation;
 using Microsoft.Extensions.DependencyInjection;
-using StayNest.Application.Behaviors;
-
+using StayNest.Application.Abstractions.Behaviors;
 
 namespace StayNest.Application;
 
