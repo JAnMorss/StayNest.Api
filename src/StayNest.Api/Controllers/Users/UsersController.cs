@@ -25,7 +25,6 @@ public class UsersController : ApiController
     {
         var command = new RegisterUserCommand(
             request.Name,
-            request.Image,
             request.Email,
             request.Password
         );
