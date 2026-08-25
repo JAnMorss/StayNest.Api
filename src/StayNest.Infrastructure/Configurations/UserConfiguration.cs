@@ -49,6 +49,8 @@ internal sealed class UserConfiguration : IEntityTypeConfiguration<User>
         builder.Property(user => user.EmailVerified)
             .IsRequired(false);
 
+        builder.HasIndex(user => user.IdentityId).IsUnique();
+
         builder.Property(user => user.CreatedAt)
             .IsRequired();
 
