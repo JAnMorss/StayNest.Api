@@ -2,7 +2,6 @@
 
 public sealed record RegisterUserRequest(
     string Name,
-    string Image,
     string Email,
     string Password
 );
