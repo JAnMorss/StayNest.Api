@@ -35,13 +35,11 @@ public sealed class RegisterUserCommandHandler
     {
         var nameResult = Name.Create(request.Name);
         var emailResult = Email.Create(request.Email);
-        var imageResult = Image.Create(request.Image);
         var passwordHash = HashedPassword.FromPlainText(request.Password);
 
         Result validationResult = Result.FirstFailureOrSuccess(
             nameResult,
-            emailResult,
-            imageResult
+            emailResult
         );
         if (validationResult.IsFailure)
             return Result.Failure<UserResponse>(validationResult.Error);
@@ -49,7 +47,6 @@ public sealed class RegisterUserCommandHandler
         var userResult = User.Create(
             nameResult.Value,
             emailResult.Value,
-            imageResult.Value,
             passwordHash
         );
 
