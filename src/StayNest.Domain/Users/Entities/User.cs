@@ -59,7 +59,6 @@ public sealed class User : BaseEntity
     public static Result<User> Create(
         Name? name,
         Email? email,
-        Image? image,
         HashedPassword? hashedPassword
     )
     {
@@ -68,7 +67,7 @@ public sealed class User : BaseEntity
             name,
             email,
             null,
-            image,
+            null,
             hashedPassword
         );
 
