@@ -241,6 +241,10 @@ namespace StayNest.Infrastructure.Migrations
                     b.HasKey("Id")
                         .HasName("pk_users");
 
+                    b.HasIndex("IdentityId")
+                        .IsUnique()
+                        .HasDatabaseName("ix_users_identity_id");
+
                     b.ToTable("users", (string)null);
                 });
 
