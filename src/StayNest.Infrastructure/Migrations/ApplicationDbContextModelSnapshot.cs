@@ -3,8 +3,8 @@ using System;
 using System.Collections.Generic;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
-using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 using StayNest.Infrastructure;
 
 #nullable disable
@@ -19,18 +19,18 @@ namespace StayNest.Infrastructure.Migrations
 #pragma warning disable 612, 618
             modelBuilder
                 .HasAnnotation("ProductVersion", "10.0.11")
-                .HasAnnotation("Relational:MaxIdentifierLength", 63);
+                .HasAnnotation("Relational:MaxIdentifierLength", 128);
 
-            NpgsqlModelBuilderExtensions.UseIdentityByDefaultColumns(modelBuilder);
+            SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
 
             modelBuilder.Entity("RoleUser", b =>
                 {
                     b.Property<int>("RolesId")
-                        .HasColumnType("integer")
+                        .HasColumnType("int")
                         .HasColumnName("roles_id");
 
                     b.Property<Guid>("UsersId")
-                        .HasColumnType("uuid")
+                        .HasColumnType("uniqueidentifier")
                         .HasColumnName("users_id");
 
                     b.HasKey("RolesId", "UsersId")
@@ -45,11 +45,11 @@ namespace StayNest.Infrastructure.Migrations
             modelBuilder.Entity("StayNest.Domain.Favorites.Entities.Favorite", b =>
                 {
                     b.Property<Guid>("UserId")
-                        .HasColumnType("uuid")
+                        .HasColumnType("uniqueidentifier")
                         .HasColumnName("user_id");
 
                     b.Property<Guid>("ListingId")
-                        .HasColumnType("uuid")
+                        .HasColumnType("uniqueidentifier")
                         .HasColumnName("listing_id");
 
                     b.HasKey("UserId", "ListingId")
@@ -65,15 +65,15 @@ namespace StayNest.Infrastructure.Migrations
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("uuid")
+                        .HasColumnType("uniqueidentifier")
                         .HasColumnName("id");
 
                     b.Property<DateTime>("CreatedAt")
-                        .HasColumnType("timestamp with time zone")
+                        .HasColumnType("datetime2")
                         .HasColumnName("created_at");
 
                     b.Property<Guid>("UserId")
-                        .HasColumnType("uuid")
+                        .HasColumnType("uniqueidentifier")
                         .HasColumnName("user_id");
 
                     b.HasKey("Id")
@@ -89,19 +89,19 @@ namespace StayNest.Infrastructure.Migrations
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("uuid")
+                        .HasColumnType("uniqueidentifier")
                         .HasColumnName("id");
 
                     b.Property<DateTime>("CreatedAt")
-                        .HasColumnType("timestamp with time zone")
+                        .HasColumnType("datetime2")
                         .HasColumnName("created_at");
 
                     b.Property<Guid>("ListingId")
-                        .HasColumnType("uuid")
+                        .HasColumnType("uniqueidentifier")
                         .HasColumnName("listing_id");
 
                     b.Property<Guid>("UserId")
-                        .HasColumnType("uuid")
+                        .HasColumnType("uniqueidentifier")
                         .HasColumnName("user_id");
 
                     b.ComplexProperty(typeof(Dictionary<string, object>), "Period", "StayNest.Domain.Reservations.Entities.Reservation.Period#DateRange", b1 =>
@@ -109,11 +109,11 @@ namespace StayNest.Infrastructure.Migrations
                             b1.IsRequired();
 
                             b1.Property<DateTime>("EndDate")
-                                .HasColumnType("timestamp with time zone")
+                                .HasColumnType("datetime2")
                                 .HasColumnName("period_end_date");
 
                             b1.Property<DateTime>("StartDate")
-                                .HasColumnType("timestamp with time zone")
+                                .HasColumnType("datetime2")
                                 .HasColumnName("period_start_date");
                         });
 
@@ -133,14 +133,14 @@ namespace StayNest.Infrastructure.Migrations
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("integer")
+                        .HasColumnType("int")
                         .HasColumnName("id");
 
-                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
                     b.Property<string>("Name")
                         .IsRequired()
-                        .HasColumnType("text")
+                        .HasColumnType("nvarchar(max)")
                         .HasColumnName("name");
 
                     b.HasKey("Id")
@@ -160,14 +160,14 @@ namespace StayNest.Infrastructure.Migrations
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("integer")
+                        .HasColumnType("int")
                         .HasColumnName("id");
 
-                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
                     b.Property<string>("Name")
                         .IsRequired()
-                        .HasColumnType("text")
+                        .HasColumnType("nvarchar(max)")
                         .HasColumnName("name");
 
                     b.HasKey("Id")
@@ -191,11 +191,11 @@ namespace StayNest.Infrastructure.Migrations
             modelBuilder.Entity("StayNest.Domain.Users.Entities.RolePermission", b =>
                 {
                     b.Property<int>("RoleId")
-                        .HasColumnType("integer")
+                        .HasColumnType("int")
                         .HasColumnName("role_id");
 
                     b.Property<int>("PermissionId")
-                        .HasColumnType("integer")
+                        .HasColumnType("int")
                         .HasColumnName("permission_id");
 
                     b.HasKey("RoleId", "PermissionId")
@@ -218,24 +218,24 @@ namespace StayNest.Infrastructure.Migrations
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("uuid")
+                        .HasColumnType("uniqueidentifier")
                         .HasColumnName("id");
 
                     b.Property<DateTime>("CreatedAt")
-                        .HasColumnType("timestamp with time zone")
+                        .HasColumnType("datetime2")
                         .HasColumnName("created_at");
 
                     b.Property<DateTime?>("EmailVerified")
-                        .HasColumnType("timestamp with time zone")
+                        .HasColumnType("datetime2")
                         .HasColumnName("email_verified");
 
                     b.Property<string>("IdentityId")
                         .IsRequired()
-                        .HasColumnType("text")
+                        .HasColumnType("nvarchar(450)")
                         .HasColumnName("identity_id");
 
                     b.Property<DateTime?>("UpdatedAt")
-                        .HasColumnType("timestamp with time zone")
+                        .HasColumnType("datetime2")
                         .HasColumnName("updated_at");
 
                     b.HasKey("Id")
@@ -298,13 +298,13 @@ namespace StayNest.Infrastructure.Migrations
                     b.OwnsOne("StayNest.Domain.Shared.ValueObjects.Image", "ImageSrc", b1 =>
                         {
                             b1.Property<Guid>("ListingId")
-                                .HasColumnType("uuid")
+                                .HasColumnType("uniqueidentifier")
                                 .HasColumnName("id");
 
                             b1.Property<string>("Value")
                                 .IsRequired()
                                 .HasMaxLength(500)
-                                .HasColumnType("character varying(500)")
+                                .HasColumnType("nvarchar(500)")
                                 .HasColumnName("image_src");
 
                             b1.HasKey("ListingId");
@@ -319,11 +319,11 @@ namespace StayNest.Infrastructure.Migrations
                     b.OwnsOne("StayNest.Domain.Shared.ValueObjects.Price", "Price", b1 =>
                         {
                             b1.Property<Guid>("ListingId")
-                                .HasColumnType("uuid")
+                                .HasColumnType("uniqueidentifier")
                                 .HasColumnName("id");
 
                             b1.Property<decimal>("Amount")
-                                .HasColumnType("numeric")
+                                .HasColumnType("decimal(18,2)")
                                 .HasColumnName("price");
 
                             b1.HasKey("ListingId");
@@ -338,11 +338,11 @@ namespace StayNest.Infrastructure.Migrations
                     b.OwnsOne("StayNest.Domain.Listings.ValueObjects.BathroomCount", "BathroomCount", b1 =>
                         {
                             b1.Property<Guid>("ListingId")
-                                .HasColumnType("uuid")
+                                .HasColumnType("uniqueidentifier")
                                 .HasColumnName("id");
 
                             b1.Property<int>("Value")
-                                .HasColumnType("integer")
+                                .HasColumnType("int")
                                 .HasColumnName("bathroom_count");
 
                             b1.HasKey("ListingId");
@@ -357,13 +357,13 @@ namespace StayNest.Infrastructure.Migrations
                     b.OwnsOne("StayNest.Domain.Listings.ValueObjects.Category", "Category", b1 =>
                         {
                             b1.Property<Guid>("ListingId")
-                                .HasColumnType("uuid")
+                                .HasColumnType("uniqueidentifier")
                                 .HasColumnName("id");
 
                             b1.Property<string>("Value")
                                 .IsRequired()
                                 .HasMaxLength(100)
-                                .HasColumnType("character varying(100)")
+                                .HasColumnType("nvarchar(100)")
                                 .HasColumnName("category");
 
                             b1.HasKey("ListingId");
@@ -378,13 +378,13 @@ namespace StayNest.Infrastructure.Migrations
                     b.OwnsOne("StayNest.Domain.Listings.ValueObjects.Description", "Description", b1 =>
                         {
                             b1.Property<Guid>("ListingId")
-                                .HasColumnType("uuid")
+                                .HasColumnType("uniqueidentifier")
                                 .HasColumnName("id");
 
                             b1.Property<string>("Value")
                                 .IsRequired()
                                 .HasMaxLength(1000)
-                                .HasColumnType("character varying(1000)")
+                                .HasColumnType("nvarchar(1000)")
                                 .HasColumnName("description");
 
                             b1.HasKey("ListingId");
@@ -399,11 +399,11 @@ namespace StayNest.Infrastructure.Migrations
                     b.OwnsOne("StayNest.Domain.Listings.ValueObjects.GuestCount", "GuestCount", b1 =>
                         {
                             b1.Property<Guid>("ListingId")
-                                .HasColumnType("uuid")
+                                .HasColumnType("uniqueidentifier")
                                 .HasColumnName("id");
 
                             b1.Property<int>("Value")
-                                .HasColumnType("integer")
+                                .HasColumnType("int")
                                 .HasColumnName("guest_count");
 
                             b1.HasKey("ListingId");
@@ -418,13 +418,13 @@ namespace StayNest.Infrastructure.Migrations
                     b.OwnsOne("StayNest.Domain.Listings.ValueObjects.LocationValue", "LocationValue", b1 =>
                         {
                             b1.Property<Guid>("ListingId")
-                                .HasColumnType("uuid")
+                                .HasColumnType("uniqueidentifier")
                                 .HasColumnName("id");
 
                             b1.Property<string>("Value")
                                 .IsRequired()
                                 .HasMaxLength(255)
-                                .HasColumnType("character varying(255)")
+                                .HasColumnType("nvarchar(255)")
                                 .HasColumnName("location_value");
 
                             b1.HasKey("ListingId");
@@ -439,11 +439,11 @@ namespace StayNest.Infrastructure.Migrations
                     b.OwnsOne("StayNest.Domain.Listings.ValueObjects.RoomCount", "RoomCount", b1 =>
                         {
                             b1.Property<Guid>("ListingId")
-                                .HasColumnType("uuid")
+                                .HasColumnType("uniqueidentifier")
                                 .HasColumnName("id");
 
                             b1.Property<int>("Value")
-                                .HasColumnType("integer")
+                                .HasColumnType("int")
                                 .HasColumnName("room_count");
 
                             b1.HasKey("ListingId");
@@ -458,13 +458,13 @@ namespace StayNest.Infrastructure.Migrations
                     b.OwnsOne("StayNest.Domain.Listings.ValueObjects.Title", "Title", b1 =>
                         {
                             b1.Property<Guid>("ListingId")
-                                .HasColumnType("uuid")
+                                .HasColumnType("uniqueidentifier")
                                 .HasColumnName("id");
 
                             b1.Property<string>("Value")
                                 .IsRequired()
                                 .HasMaxLength(100)
-                                .HasColumnType("character varying(100)")
+                                .HasColumnType("nvarchar(100)")
                                 .HasColumnName("title");
 
                             b1.HasKey("ListingId");
@@ -525,11 +525,11 @@ namespace StayNest.Infrastructure.Migrations
                     b.OwnsOne("StayNest.Domain.Shared.ValueObjects.Price", "TotalPrice", b1 =>
                         {
                             b1.Property<Guid>("ReservationId")
-                                .HasColumnType("uuid")
+                                .HasColumnType("uniqueidentifier")
                                 .HasColumnName("id");
 
                             b1.Property<decimal>("Amount")
-                                .HasColumnType("numeric")
+                                .HasColumnType("decimal(18,2)")
                                 .HasColumnName("total_price");
 
                             b1.HasKey("ReservationId");
@@ -571,11 +571,11 @@ namespace StayNest.Infrastructure.Migrations
                     b.OwnsOne("StayNest.Domain.Shared.ValueObjects.Image", "Image", b1 =>
                         {
                             b1.Property<Guid>("UserId")
-                                .HasColumnType("uuid")
+                                .HasColumnType("uniqueidentifier")
                                 .HasColumnName("id");
 
                             b1.Property<string>("Value")
-                                .HasColumnType("text")
+                                .HasColumnType("nvarchar(max)")
                                 .HasColumnName("image");
 
                             b1.HasKey("UserId");
@@ -590,18 +590,19 @@ namespace StayNest.Infrastructure.Migrations
                     b.OwnsOne("StayNest.Domain.Users.ValueObjects.Email", "Email", b1 =>
                         {
                             b1.Property<Guid>("UserId")
-                                .HasColumnType("uuid")
+                                .HasColumnType("uniqueidentifier")
                                 .HasColumnName("id");
 
                             b1.Property<string>("Value")
-                                .HasColumnType("text")
+                                .HasColumnType("nvarchar(450)")
                                 .HasColumnName("email");
 
                             b1.HasKey("UserId");
 
                             b1.HasIndex("Value")
                                 .IsUnique()
-                                .HasDatabaseName("ix_users_email");
+                                .HasDatabaseName("ix_users_email")
+                                .HasFilter("[email] IS NOT NULL");
 
                             b1.ToTable("users");
 
@@ -613,12 +614,12 @@ namespace StayNest.Infrastructure.Migrations
                     b.OwnsOne("StayNest.Domain.Users.ValueObjects.HashedPassword", "HashedPassword", b1 =>
                         {
                             b1.Property<Guid>("UserId")
-                                .HasColumnType("uuid")
+                                .HasColumnType("uniqueidentifier")
                                 .HasColumnName("id");
 
                             b1.Property<string>("Value")
                                 .HasMaxLength(500)
-                                .HasColumnType("character varying(500)")
+                                .HasColumnType("nvarchar(500)")
                                 .HasColumnName("password_hash");
 
                             b1.HasKey("UserId");
@@ -633,12 +634,12 @@ namespace StayNest.Infrastructure.Migrations
                     b.OwnsOne("StayNest.Domain.Users.ValueObjects.Name", "Name", b1 =>
                         {
                             b1.Property<Guid>("UserId")
-                                .HasColumnType("uuid")
+                                .HasColumnType("uniqueidentifier")
                                 .HasColumnName("id");
 
                             b1.Property<string>("Value")
                                 .HasMaxLength(100)
-                                .HasColumnType("character varying(100)")
+                                .HasColumnType("nvarchar(100)")
                                 .HasColumnName("name");
 
                             b1.HasKey("UserId");
