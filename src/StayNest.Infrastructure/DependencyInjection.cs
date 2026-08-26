@@ -38,7 +38,14 @@ public static class DependencyInjection
 
         services.AddDbContext<ApplicationDbContext>(options =>
         {
-            options.UseNpgsql(connectionString).UseSnakeCaseNamingConvention();
+            options.UseSqlServer(connectionString, sqlOptions =>
+            {
+                sqlOptions.EnableRetryOnFailure(
+                    maxRetryCount: 5,
+                    maxRetryDelay: TimeSpan.FromSeconds(10),
+                    errorNumbersToAdd: null
+                );
+            }).UseSnakeCaseNamingConvention();
         });
 
         services.AddScoped<IUserRepository, UserRepository>();
@@ -65,6 +72,8 @@ public static class DependencyInjection
 
         services.Configure<KeycloakOptions>(configuration.GetSection("Keycloak"));
 
+        services.AddTransient<AdminAuthorizationDelegatingHandler>();
+
         services.AddHttpClient<IAuthenticationService, AuthenticationService>((serviceProvider, httpClient) =>
         {
             var keycloakOptions = serviceProvider.GetRequiredService<IOptions<KeycloakOptions>>().Value;
@@ -72,5 +81,6 @@ public static class DependencyInjection
             httpClient.BaseAddress = new Uri(keycloakOptions.AdminUrl);
         })
             .AddHttpMessageHandler<AdminAuthorizationDelegatingHandler>();
+
     }
 }
