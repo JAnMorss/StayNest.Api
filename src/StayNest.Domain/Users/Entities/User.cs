@@ -19,15 +19,17 @@ public sealed class User : BaseEntity
 
     private User() { }
     private User(
-        Guid id, 
-        Name? name,
+        Guid id,
+        FirstName? firstName,
+        LastName? lastName,
         Email? email, 
         DateTime? emailVerified,
         Image? image,
         HashedPassword? hashedPassword
     ) : base(id)
     {
-        Name = name;
+        FirstName = firstName;
+        LastName = lastName;
         Email = email;
         EmailVerified = emailVerified;
         Image = image;
@@ -36,7 +38,8 @@ public sealed class User : BaseEntity
         UpdatedAt = null;
     }
 
-    public Name? Name {  get; private set; } 
+    public FirstName? FirstName {  get; private set; }
+    public LastName? LastName { get; private set; }
     public Email? Email { get; private set; }
     public DateTime? EmailVerified { get; private set; }
     public Image? Image { get; private set; }
@@ -57,14 +60,16 @@ public sealed class User : BaseEntity
         => _reservations.AsReadOnly();
 
     public static Result<User> Create(
-        Name? name,
+        FirstName? firstName,
+        LastName? lastName,
         Email? email,
         HashedPassword? hashedPassword
     )
     {
         var user = new User(
             Guid.NewGuid(),
-            name,
+            firstName,
+            lastName,
             email,
             null,
             null,
@@ -77,16 +82,21 @@ public sealed class User : BaseEntity
     }
 
     public Result UpdateDetails(
-        Name? name,
+        FirstName? firstName,
+        LastName? lastName,
         Image? image
     )
     {
-        if (Name == name && Image == image)
+        if (Equals(FirstName, firstName) &&
+            Equals(LastName, lastName) &&
+            Equals(Image, image))
         {
             return Result.Failure(UserErrors.NoChangesDetected);
         }
 
-        Name = name;
+
+        FirstName = firstName;
+        LastName = lastName;
         Image = image;
         UpdatedAt = DateTime.UtcNow;
 
