@@ -1,8 +1,6 @@
-﻿using Microsoft.AspNetCore.Identity;
-using StayNest.Application.Abstractions.Authentication;
+﻿using StayNest.Application.Abstractions.Authentication;
 using StayNest.Application.Users.Responses;
 using StayNest.Domain.Shared;
-using StayNest.Domain.Shared.ValueObjects;
 using StayNest.Domain.Users.Entities;
 using StayNest.Domain.Users.Interface;
 using StayNest.Domain.Users.ValueObjects;
@@ -33,19 +31,22 @@ public sealed class RegisterUserCommandHandler
         CancellationToken cancellationToken
     )
     {
-        var nameResult = Name.Create(request.Name);
+        var firstNameResult = FirstName.Create(request.FirstName);
+        var lastNameResult = LastName.Create(request.LastName);
         var emailResult = Email.Create(request.Email);
         var passwordHash = HashedPassword.FromPlainText(request.Password);
 
         Result validationResult = Result.FirstFailureOrSuccess(
-            nameResult,
+            firstNameResult,
+            lastNameResult,
             emailResult
         );
         if (validationResult.IsFailure)
             return Result.Failure<UserResponse>(validationResult.Error);
 
         var userResult = User.Create(
-            nameResult.Value,
+            firstNameResult.Value,
+            lastNameResult.Value,
             emailResult.Value,
             passwordHash
         );
