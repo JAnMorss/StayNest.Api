@@ -611,6 +611,26 @@ namespace StayNest.Infrastructure.Migrations
                                 .HasConstraintName("fk_users_users_id");
                         });
 
+                    b.OwnsOne("StayNest.Domain.Users.ValueObjects.FirstName", "FirstName", b1 =>
+                        {
+                            b1.Property<Guid>("UserId")
+                                .HasColumnType("uniqueidentifier")
+                                .HasColumnName("id");
+
+                            b1.Property<string>("Value")
+                                .HasMaxLength(50)
+                                .HasColumnType("nvarchar(50)")
+                                .HasColumnName("firstname");
+
+                            b1.HasKey("UserId");
+
+                            b1.ToTable("users");
+
+                            b1.WithOwner()
+                                .HasForeignKey("UserId")
+                                .HasConstraintName("fk_users_users_id");
+                        });
+
                     b.OwnsOne("StayNest.Domain.Users.ValueObjects.HashedPassword", "HashedPassword", b1 =>
                         {
                             b1.Property<Guid>("UserId")
@@ -631,16 +651,16 @@ namespace StayNest.Infrastructure.Migrations
                                 .HasConstraintName("fk_users_users_id");
                         });
 
-                    b.OwnsOne("StayNest.Domain.Users.ValueObjects.Name", "Name", b1 =>
+                    b.OwnsOne("StayNest.Domain.Users.ValueObjects.LastName", "LastName", b1 =>
                         {
                             b1.Property<Guid>("UserId")
                                 .HasColumnType("uniqueidentifier")
                                 .HasColumnName("id");
 
                             b1.Property<string>("Value")
-                                .HasMaxLength(100)
-                                .HasColumnType("nvarchar(100)")
-                                .HasColumnName("name");
+                                .HasMaxLength(50)
+                                .HasColumnType("nvarchar(50)")
+                                .HasColumnName("lastname");
 
                             b1.HasKey("UserId");
 
@@ -653,11 +673,13 @@ namespace StayNest.Infrastructure.Migrations
 
                     b.Navigation("Email");
 
+                    b.Navigation("FirstName");
+
                     b.Navigation("HashedPassword");
 
                     b.Navigation("Image");
 
-                    b.Navigation("Name");
+                    b.Navigation("LastName");
                 });
 
             modelBuilder.Entity("StayNest.Domain.Listings.Entities.Listing", b =>
