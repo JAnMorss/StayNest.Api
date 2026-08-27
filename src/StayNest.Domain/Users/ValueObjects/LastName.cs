@@ -1,0 +1,41 @@
+﻿using StayNest.SharedKernel.Domain;
+using StayNest.SharedKernel.ErrorHandling;
+
+namespace StayNest.Domain.Users.ValueObjects;
+
+public sealed class LastName : ValueObject
+{
+    public const int MaxLength = 50;
+
+    private LastName(string value)
+    {
+        Value = value;
+    }
+
+    public string Value { get; }
+
+    public static Result<LastName> Create(string lastname)
+    {
+        if (string.IsNullOrWhiteSpace(lastname))
+        {
+            return Result.Failure<LastName>(new Error(
+                "LastName.Empty",
+                "Lastname cannot be empty."));
+        }
+
+        if (lastname.Length > MaxLength)
+        {
+            return Result.Failure<LastName>(new Error(
+                "LastName.TooLong",
+                $"Lastname is too long. Maximum length is {MaxLength} characters."));
+        }
+
+        return Result.Success(new LastName(lastname));
+    }
+
+    public override IEnumerable<object> GetAtomicValues()
+    {
+        yield return Value;
+    }
+
+}
