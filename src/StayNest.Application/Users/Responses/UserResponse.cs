@@ -6,7 +6,8 @@ namespace StayNest.Application.Users.Responses;
 public sealed class UserResponse
 {
     public Guid Id { get; init; }
-    public string? Name { get; init; }
+    public string? FirstName { get; init; } = string.Empty;
+    public string? LastName { get; init; } = string.Empty;
     public string? Image { get; init; }
 
     [EmailAddress]
@@ -22,7 +23,8 @@ public sealed class UserResponse
         return new UserResponse
         {
             Id = user.Id,
-            Name = user.Name?.Value,
+            FirstName = user.FirstName?.Value,
+            LastName = user.LastName?.Value,
             Image = user.Image?.Value,
             Email = user.Email?.Value,
             Role = user.Roles.Any()
