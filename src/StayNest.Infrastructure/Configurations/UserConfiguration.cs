@@ -13,11 +13,19 @@ internal sealed class UserConfiguration : IEntityTypeConfiguration<User>
 
         builder.HasKey(user => user.Id);
 
-        builder.OwnsOne(user => user.Name, name =>
+        builder.OwnsOne(user => user.FirstName, name =>
         {
             name.Property(n => n.Value)
-                .HasColumnName("name")
-                .HasMaxLength(Name.MaxLength)
+                .HasColumnName("firstname")
+                .HasMaxLength(FirstName.MaxLength)
+                .IsRequired(false);
+        });
+
+        builder.OwnsOne(user => user.LastName, name =>
+        {
+            name.Property(n => n.Value)
+                .HasColumnName("lastname")
+                .HasMaxLength(LastName.MaxLength)
                 .IsRequired(false);
         });
 
