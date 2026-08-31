@@ -152,7 +152,7 @@ namespace StayNest.Infrastructure.Migrations
                         new
                         {
                             Id = 1,
-                            Name = "User.Read"
+                            Name = "users:read"
                         });
                 });
 
