@@ -5,7 +5,9 @@ using StayNest.Api.Abstractions;
 using StayNest.Api.Controllers.Users.Requests;
 using StayNest.Application.Users.Commands.LoginUser;
 using StayNest.Application.Users.Commands.RegisterUser;
+using StayNest.Application.Users.Queries.GetLoggedInUser;
 using StayNest.Application.Users.Responses;
+using StayNest.Infrastructure.Authorization;
 
 namespace StayNest.Api.Controllers.Users;
 
@@ -16,6 +18,21 @@ public class UsersController : ApiController
     public UsersController(ISender sender) 
         : base(sender)
     {
+    }
+
+    [HttpGet("me")]
+    [HasPermission(Permissions.UsersRead)]
+    public async Task<IActionResult> GetLoggedInUser(CancellationToken cancellationToken)
+    {
+        var query = new GetLoggedInUserQuery();
+
+        var result = await _sender.Send(query, cancellationToken);
+
+        return result.IsSuccess
+           ? Ok(new ApiResponse<UserResponse>(
+               result.Value,
+               "User profile retrieved successfully"))
+           : HandleFailure(result);
     }
 
     [AllowAnonymous]
