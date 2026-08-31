@@ -24,21 +24,18 @@ public sealed class LoginUserCommandHandler
         var emailResult = Email.Create(request.Email);
 
         if (emailResult.IsFailure)
-        {
-            return Result.Failure<AccessTokenResponse>(
-                emailResult.Error);
-        }
+            return Result.Failure<AccessTokenResponse>(emailResult.Error);
+        
 
         var result = await _jwtService.GetAccessTokenAsync(
             emailResult.Value,
             request.Password,
-            cancellationToken);
+            cancellationToken
+        );
 
         if (result.IsFailure)
-        {
-            return Result.Failure<AccessTokenResponse>(
-                UserErrors.InvalidCredentials);
-        }
+            return Result.Failure<AccessTokenResponse>(UserErrors.InvalidCredentials);
+        
 
         return Result.Success(
             new AccessTokenResponse(result.Value));
