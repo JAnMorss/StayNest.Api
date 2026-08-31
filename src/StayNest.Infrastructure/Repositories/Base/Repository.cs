@@ -16,7 +16,7 @@ internal abstract class Repository<T>
         _context = context;
     }
 
-    public async Task AddAsync(
+    public virtual async Task AddAsync(
         T entity,
         CancellationToken cancellationToken = default
     )
