@@ -76,6 +76,8 @@ public sealed class User : BaseEntity
             hashedPassword
         );
 
+        user._roles.Add(Role.Registered);
+
         user.RaiseDomainEvent(new UserCreatedDomainEvent(user.Id));
 
         return Result.Success(user);
