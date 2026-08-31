@@ -1,4 +1,6 @@
-﻿using Microsoft.AspNetCore.Authentication.JwtBearer;
+﻿using Microsoft.AspNetCore.Authentication;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -9,7 +11,12 @@ using StayNest.Domain.Reservations.Interface;
 using StayNest.Domain.Shared;
 using StayNest.Domain.Users.Interface;
 using StayNest.Infrastructure.Authentication;
+using StayNest.Infrastructure.Authorization;
 using StayNest.Infrastructure.Repositories;
+
+using AuthenticationOptions = StayNest.Infrastructure.Authentication.AuthenticationOptions;
+using AuthenticationService = StayNest.Infrastructure.Authentication.AuthenticationService;
+using IAuthenticationService = StayNest.Application.Abstractions.Authentication.IAuthenticationService;
 
 namespace StayNest.Infrastructure;
 
@@ -23,6 +30,8 @@ public static class DependencyInjection
         AddPersistence(services, configuration);
 
         AddAuthentication(services, configuration);
+
+        AddAuthorization(services);
 
         return services;
     }
@@ -88,5 +97,30 @@ public static class DependencyInjection
 
             httpClient.BaseAddress = new Uri(keycloakOptions.TokenUrl);
         });
+
+        services.AddHttpContextAccessor();
+
+        services.AddScoped<IUserContext, UserContext>();
     }
+
+    private static void AddAuthorization(IServiceCollection services)
+    {
+        services.AddScoped<AuthorizationService>();
+
+        services.AddTransient<IClaimsTransformation, CustomClaimsTransformation>();
+
+        services.AddTransient<IAuthorizationHandler, PermissionAuthorizationHandler>();
+
+        services.AddTransient<IAuthorizationPolicyProvider, PermissionAuthorizationPolicyProvider>();
+    }
+
+    //private static void AddCaching(IServiceCollection services, IConfiguration configuration)
+    //{
+    //    var connectionString = configuration.GetConnectionString("Cache") ??
+    //                           throw new ArgumentNullException(nameof(configuration));
+
+    //    services.AddStackExchangeRedisCache(options => options.Configuration = connectionString);
+
+    //    services.AddSingleton<ICacheService, CacheService>();
+    //}
 }
