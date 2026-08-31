@@ -41,6 +41,7 @@ public sealed class RegisterUserCommandHandler
             lastNameResult,
             emailResult
         );
+
         if (validationResult.IsFailure)
             return Result.Failure<UserResponse>(validationResult.Error);
 
