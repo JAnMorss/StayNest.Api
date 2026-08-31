@@ -15,32 +15,43 @@ internal sealed class UserRepository
     {
     }
 
+    public override async Task AddAsync(
+        User user,
+        CancellationToken cancellationToken = default)
+    {
+        foreach (var role in user.Roles)
+        {
+            _context.Attach(role);
+        }
+
+        await base.AddAsync(user, cancellationToken);
+    }
+
     protected override IQueryable<User> BuildQuery(
         ApplicationDbContext context,
         QueryObject queryObject,
         Guid? userId = null)
     {
-        var query = context.Set<User>()
+        return context.Set<User>()
             .Include(u => u.Roles)
             .Include(u => u.Listings)
             .Include(u => u.Reservations)
             .Include(u => u.Favorites)
             .AsQueryable();
-
-        return query;
     }
 
     public Task<User?> GetByEmailAsync(
         Email email,
         CancellationToken cancellationToken = default)
     {
-        var query = BuildQuery(_context, new QueryObject());
+        var query = BuildQuery(
+            _context,
+            new QueryObject());
 
         return query.FirstOrDefaultAsync(
             u => u.Email != null &&
-            u.Email.Value == email.Value,
-            cancellationToken
-        );
+                 u.Email.Value == email.Value,
+            cancellationToken);
     }
 
     public Task<bool> ExistsByEmailAsync(
@@ -50,8 +61,20 @@ internal sealed class UserRepository
         return _context.Set<User>()
             .AnyAsync(
                 u => u.Email != null &&
-                u.Email.Value == email.Value,
+                     u.Email.Value == email.Value,
+                cancellationToken);
+    }
+
+    public Task<User?> GetByIdentityIdAsync(
+        string identityId,
+        CancellationToken cancellationToken = default)
+    {
+        return _context.Set<User>()
+            .Include(u => u.Roles)
+            .FirstOrDefaultAsync(
+                u => u.IdentityId == identityId,
                 cancellationToken
             );
     }
+
 }
