@@ -6,8 +6,7 @@ public sealed class RefreshToken
         Guid id, 
         Guid userId,
         string token, 
-        DateTime expiryDate
-    )
+        DateTime expiryDate)
     {
         Id = id;
         UserId = userId;
