@@ -63,8 +63,7 @@ public sealed class User : BaseEntity
         FirstName? firstName,
         LastName? lastName,
         Email? email,
-        HashedPassword? hashedPassword
-    )
+        HashedPassword? hashedPassword)
     {
         var user = new User(
             Guid.NewGuid(),
@@ -86,8 +85,7 @@ public sealed class User : BaseEntity
     public Result UpdateDetails(
         FirstName? firstName,
         LastName? lastName,
-        Image? image
-    )
+        Image? image)
     {
         if (Equals(FirstName, firstName) &&
             Equals(LastName, lastName) &&
