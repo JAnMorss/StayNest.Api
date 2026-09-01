@@ -44,7 +44,6 @@ services:
     ports:
       - "18080:8080"
 
-
   staynest-seq:
     image: datalust/seq:latest
     container_name: StayNest.SEQ
@@ -53,10 +52,16 @@ services:
       - SEQ_FIRSTRUN_NOAUTHENTICATION=true
     ports:
       - "5341:5341"
-      - "8086:80"
+      - "8081:80"
     volumes:
       - seq-data:/data
 
+  staynest-redis:
+    image: redis:latest
+    container_name: StayNest.Redis
+    restart: always
+    ports:
+      - '6379:6379'
 
 volumes:
   mssql-data:
