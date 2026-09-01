@@ -28,8 +28,7 @@ public sealed class RegisterUserCommandHandler
     }
     public async Task<Result<UserResponse>> Handle(
         RegisterUserCommand request,
-        CancellationToken cancellationToken
-    )
+        CancellationToken cancellationToken)
     {
         var firstNameResult = FirstName.Create(request.FirstName);
         var lastNameResult = LastName.Create(request.LastName);
