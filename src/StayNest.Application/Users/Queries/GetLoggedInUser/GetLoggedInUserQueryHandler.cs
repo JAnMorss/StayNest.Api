@@ -22,8 +22,7 @@ public sealed class GetLoggedInUserQueryHandler : IQueryHandler<GetLoggedInUserQ
 
     public async Task<Result<UserResponse>> Handle(
         GetLoggedInUserQuery request,
-        CancellationToken cancellationToken
-    )
+        CancellationToken cancellationToken)
     {
         var user = await _userRepository.GetByIdentityIdAsync(
             _userContext.IdentityId,
