@@ -1,4 +1,5 @@
-﻿using MediatR;
+﻿using Asp.Versioning;
+using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using StayNest.Api.Abstractions;
@@ -12,7 +13,8 @@ using StayNest.Infrastructure.Authorization;
 namespace StayNest.Api.Controllers.Users;
 
 [ApiController]
-[Route("api/user")]
+[ApiVersion(ApiVersions.V1)]
+[Route("api/v{version:apiVersion}/users")]
 public class UsersController : ApiController
 {
     public UsersController(ISender sender) 
