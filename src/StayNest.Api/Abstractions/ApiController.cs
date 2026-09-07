@@ -44,12 +44,4 @@ public abstract class ApiController : ControllerBase
                 Extensions = { { nameof(errors), errors } }
             };
 
-    protected Guid? GetUserId()
-    {
-        var userId = User.FindFirst(System.Security.Claims.ClaimTypes.NameIdentifier)?.Value;
-
-        return string.IsNullOrEmpty(userId)
-            ? null
-            : Guid.Parse(userId);
-    }
 }
