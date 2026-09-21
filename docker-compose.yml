@@ -63,6 +63,16 @@ services:
     ports:
       - '6379:6379'
 
+  staynest-blob-storage:
+    image: mcr.microsoft.com/azure-storage/azurite:latest
+    container_name: staynest.blob-storage
+    ports:
+      - "10000:10000"
+    volumes:
+      - blob-storage-data:/data
+    command: "azurite-blob --blobHost 0.0.0.0 -l /data"
+
 volumes:
   mssql-data:
   seq-data:
+  blob-storage-data:
