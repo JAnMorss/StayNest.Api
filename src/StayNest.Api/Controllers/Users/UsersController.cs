@@ -6,7 +6,9 @@ using StayNest.Api.Abstractions;
 using StayNest.Api.Controllers.Users.Requests;
 using StayNest.Application.Users.Commands.LoginUser;
 using StayNest.Application.Users.Commands.RegisterUser;
+using StayNest.Application.Users.Commands.UploadUserAvatar;
 using StayNest.Application.Users.Queries.GetLoggedInUser;
+using StayNest.Application.Users.Queries.GetUserAvatar;
 using StayNest.Application.Users.Responses;
 using StayNest.Infrastructure.Authorization;
 
@@ -79,4 +81,36 @@ public class UsersController : ApiController
                 "logged in successfully."
             )) : HandleFailure(result);
     }
+
+    [HttpGet("image")]
+    [HasPermission(Permissions.UsersRead)]
+    public async Task<IActionResult> GetUserAvatar(CancellationToken cancellationToken)
+    {
+        var query = new GetUserAvatarQuery();
+
+        var result = await _sender.Send(query, cancellationToken);
+
+        return result.IsSuccess
+            ? Ok(new ApiResponse<UserAvatarResponse>(
+                result.Value,
+                "User avatar retrieved successfully"))
+            : HandleFailure(result);
+    }
+
+    [HttpPut("image")]
+    [HasPermission(Permissions.UsersWrite)]
+    public async Task<IActionResult> UploadUserAvatar(
+        [FromForm] UploadImageRequest request,
+        CancellationToken cancellationToken)
+    {
+        var command = new UploadUserAvatarCommand(request.File);
+
+        var result = await _sender.Send(command, cancellationToken);
+
+        return result.IsSuccess
+            ? Ok(new ApiResponse(
+                "User avatar image updated successfully"))
+            : HandleFailure(result);
+    }
+
 }
