@@ -25,8 +25,7 @@ public sealed class User : BaseEntity
         Email? email, 
         DateTime? emailVerified,
         Image? image,
-        HashedPassword? hashedPassword
-    ) : base(id)
+        HashedPassword? hashedPassword) : base(id)
     {
         FirstName = firstName;
         LastName = lastName;
@@ -72,8 +71,7 @@ public sealed class User : BaseEntity
             email,
             null,
             null,
-            hashedPassword
-        );
+            hashedPassword);
 
         user._roles.Add(Role.Registered);
 
@@ -148,6 +146,20 @@ public sealed class User : BaseEntity
         UpdatedAt = DateTime.UtcNow;
 
         RaiseDomainEvent(new UserUpdatePasswordDomainEvent(Id));
+
+        return Result.Success();
+    }
+
+    public Result UpdateImage(string imageUrl)
+    {
+        var avatarPhotoResult = Image.Create(imageUrl);
+        if (avatarPhotoResult.IsFailure)
+            return Result.Failure(avatarPhotoResult.Error);
+
+        Image = avatarPhotoResult.Value;
+        UpdatedAt = DateTime.UtcNow;
+
+        RaiseDomainEvent(new UserAvatarUpdatedDomainEvent(Id));
 
         return Result.Success();
     }
