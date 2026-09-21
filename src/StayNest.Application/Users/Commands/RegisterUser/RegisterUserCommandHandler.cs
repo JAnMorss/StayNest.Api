@@ -38,8 +38,7 @@ public sealed class RegisterUserCommandHandler
         Result validationResult = Result.FirstFailureOrSuccess(
             firstNameResult,
             lastNameResult,
-            emailResult
-        );
+            emailResult);
 
         if (validationResult.IsFailure)
             return Result.Failure<UserResponse>(validationResult.Error);
@@ -48,8 +47,7 @@ public sealed class RegisterUserCommandHandler
             firstNameResult.Value,
             lastNameResult.Value,
             emailResult.Value,
-            passwordHash
-        );
+            passwordHash);
 
         if (userResult.IsFailure)
             return Result.Failure<UserResponse>(userResult.Error);
@@ -59,8 +57,7 @@ public sealed class RegisterUserCommandHandler
         var identityId = await _authenticationService.RegisterAsync(
            user,
            request.Password,
-           cancellationToken
-        );
+           cancellationToken);
 
         user.SetIdentityId(identityId);
 
