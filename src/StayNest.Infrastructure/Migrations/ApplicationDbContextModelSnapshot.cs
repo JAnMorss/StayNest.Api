@@ -153,6 +153,11 @@ namespace StayNest.Infrastructure.Migrations
                         {
                             Id = 1,
                             Name = "users:read"
+                        },
+                        new
+                        {
+                            Id = 2,
+                            Name = "users:write"
                         });
                 });
 
@@ -211,6 +216,11 @@ namespace StayNest.Infrastructure.Migrations
                         {
                             RoleId = 2,
                             PermissionId = 1
+                        },
+                        new
+                        {
+                            RoleId = 2,
+                            PermissionId = 2
                         });
                 });
 
