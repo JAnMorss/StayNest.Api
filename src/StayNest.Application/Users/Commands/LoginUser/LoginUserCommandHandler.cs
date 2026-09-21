@@ -30,8 +30,7 @@ public sealed class LoginUserCommandHandler
         var result = await _jwtService.GetAccessTokenAsync(
             emailResult.Value,
             request.Password,
-            cancellationToken
-        );
+            cancellationToken);
 
         if (result.IsFailure)
             return Result.Failure<AccessTokenResponse>(UserErrors.InvalidCredentials);
