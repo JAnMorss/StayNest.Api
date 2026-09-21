@@ -1,4 +1,5 @@
 ﻿using Asp.Versioning;
+using Azure.Storage.Blobs;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
@@ -7,6 +8,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Options;
 using StayNest.Application.Abstractions.Authentication;
+using StayNest.Application.Abstractions.BlobStorage;
 using StayNest.Application.Abstractions.Caching;
 using StayNest.Domain.Listings.Interface;
 using StayNest.Domain.Reservations.Interface;
@@ -14,6 +16,7 @@ using StayNest.Domain.Shared;
 using StayNest.Domain.Users.Interface;
 using StayNest.Infrastructure.Authentication;
 using StayNest.Infrastructure.Authorization;
+using StayNest.Infrastructure.BlobStorage;
 using StayNest.Infrastructure.Caching;
 using StayNest.Infrastructure.Repositories;
 
@@ -73,6 +76,10 @@ public static class DependencyInjection
         services.AddScoped<IReservationRepository, ReservationRepository>();
 
         services.AddScoped<IUnitOfWork>(sp => sp.GetRequiredService<ApplicationDbContext>());
+
+        services.AddSingleton(x => new BlobServiceClient(configuration.GetConnectionString("BlobStorage")));
+
+        services.AddScoped<IBlobService, BlobService>();
     }
 
     private static void AddAuthentication(
