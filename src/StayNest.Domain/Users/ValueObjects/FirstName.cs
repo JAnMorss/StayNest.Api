@@ -27,8 +27,7 @@ public sealed class FirstName : ValueObject
         {
             return Result.Failure<FirstName>(new Error(
                 "FirstName.TooLong",
-                $"Firstname is too long. Maximum Length is {MaxLength} characters."
-            ));
+                $"Firstname is too long. Maximum Length is {MaxLength} characters."));
         }
 
         return Result.Success(new FirstName(firstName));
