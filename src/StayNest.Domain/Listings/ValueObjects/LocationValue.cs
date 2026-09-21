@@ -20,16 +20,14 @@ public sealed class LocationValue : ValueObject
         {
             return Result.Failure<LocationValue>(new Error(
                 "LocationValue.Empty",
-                "Location value cannot be empty."
-            ));
+                "Location value cannot be empty."));
         }
 
         if (value.Length > MaxLength)
         {
             return Result.Failure<LocationValue>(new Error(
                 "LocationValue.TooLong",
-                $"Location value cannot exceed {MaxLength} characters."
-            ));
+                $"Location value cannot exceed {MaxLength} characters."));
         }
 
         return Result.Success(new LocationValue(value));
