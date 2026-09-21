@@ -32,8 +32,7 @@ public sealed class DateRange : ValueObject
         {
             return Result.Failure<DateRange>(new Error(
                 "DateRange.Invalid",
-                "Start date must be before end date."
-            ));
+                "Start date must be before end date."));
         }
 
         return Result.Success(new DateRange(startDate, endDate));
