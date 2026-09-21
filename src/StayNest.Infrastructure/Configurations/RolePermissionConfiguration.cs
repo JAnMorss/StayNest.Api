@@ -4,15 +4,17 @@ using StayNest.Domain.Users.Entities;
 
 namespace StayNest.Infrastructure.Configurations;
 
-internal sealed class RolePermissionConfiguration : IEntityTypeConfiguration<RolePermission>
+internal sealed class RolePermissionConfiguration
+    : IEntityTypeConfiguration<RolePermission>
 {
     public void Configure(EntityTypeBuilder<RolePermission> builder)
     {
         builder.ToTable("role_permissions");
 
-        builder.HasKey(rolePermission => new { 
-            rolePermission.RoleId, 
-            rolePermission.PermissionId 
+        builder.HasKey(rolePermission => new
+        {
+            rolePermission.RoleId,
+            rolePermission.PermissionId
         });
 
         builder.HasData(
@@ -20,6 +22,11 @@ internal sealed class RolePermissionConfiguration : IEntityTypeConfiguration<Rol
             {
                 RoleId = Role.Registered.Id,
                 PermissionId = Permission.UsersRead.Id
+            },
+            new RolePermission
+            {
+                RoleId = Role.Registered.Id,
+                PermissionId = Permission.UsersWrite.Id
             });
     }
 }
