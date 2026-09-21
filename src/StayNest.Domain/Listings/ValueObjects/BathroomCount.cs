@@ -20,16 +20,14 @@ public sealed class BathroomCount : ValueObject
         {
             return Result.Failure<BathroomCount>(new Error(
                 "BathroomCount.Invalid",
-                "Bathroom count cannot be negative."
-            ));
+                "Bathroom count cannot be negative."));
         }
 
         if (bathroomCount > MaxValue)
         {
             return Result.Failure<BathroomCount>(new Error(
                 "BathroomCount.TooLong",
-                $"Bathroom count cannot exceed {MaxValue}."
-            ));
+                $"Bathroom count cannot exceed {MaxValue}."));
         }
 
         return Result.Success(new BathroomCount(bathroomCount));
