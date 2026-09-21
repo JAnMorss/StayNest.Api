@@ -19,8 +19,7 @@ public sealed class Email : ValueObject
         {
             return Result.Failure<Email>(new Error(
                 "Email.Empty",
-                "Email cannot be empty."
-            ));
+                "Email cannot be empty."));
         }
 
         try
@@ -33,8 +32,7 @@ public sealed class Email : ValueObject
         {
             return Result.Failure<Email>(new Error(
                 "Email.Invalid",
-                "Invalid email address format."
-            ));
+                "Invalid email address format."));
         }
     }
 
