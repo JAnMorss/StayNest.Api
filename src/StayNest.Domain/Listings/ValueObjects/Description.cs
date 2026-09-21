@@ -20,16 +20,14 @@ public sealed class Description : ValueObject
         {
             return Result.Failure<Description>(new Error(
                 "Description.Empty",
-                "Description cannot be empty."
-            ));
+                "Description cannot be empty."));
         }
 
         if(description.Length > MaxLength)
         {
             return Result.Failure<Description>(new Error(
                 "Description.TooLong",
-                $"Description cannot exceed {MaxLength} characters."
-            ));
+                $"Description cannot exceed {MaxLength} characters."));
         }
 
         return Result.Success(new Description(description));
