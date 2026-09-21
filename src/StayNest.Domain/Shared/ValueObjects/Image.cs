@@ -18,16 +18,14 @@ public sealed class Image : ValueObject
         {
             return Result.Failure<Image>(new Error(
                 "Image.Empty",
-                "Image cannot be empty."
-            ));
+                "Image cannot be empty."));
         }
 
         if (!Uri.TryCreate(image, UriKind.RelativeOrAbsolute, out var uriResult))
         {
             return Result.Failure<Image>(new Error(
                 "Image.InvalidUrl",
-                "Your image URL is invalid."
-            ));
+                "Your image URL is invalid."));
         }
 
         if (uriResult.IsAbsoluteUri &&
@@ -36,8 +34,7 @@ public sealed class Image : ValueObject
         {
             return Result.Failure<Image>(new Error(
                 "Image.InvalidUrl",
-                "Your image URL is invalid."
-            ));
+                "Your image URL is invalid."));
         }
 
         return Result.Success(new Image(image));
