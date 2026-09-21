@@ -20,16 +20,14 @@ public sealed class RoomCount : ValueObject
         {
             return Result.Failure<RoomCount>(new Error(
                 "RoomCount.Invalid",
-                "Room count must be greater than zero."
-            ));
+                "Room count must be greater than zero."));
         }
 
         if (roomCount > MaxValue)
         {
             return Result.Failure<RoomCount>(new Error(
                 "RoomCount.TooLong",
-                $"Room count cannot exceed {MaxValue}."
-            ));
+                $"Room count cannot exceed {MaxValue}."));
         }
 
         return Result.Success(new RoomCount(roomCount));
