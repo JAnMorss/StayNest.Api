@@ -26,8 +26,7 @@ public sealed class GetLoggedInUserQueryHandler : IQueryHandler<GetLoggedInUserQ
     {
         var user = await _userRepository.GetByIdentityIdAsync(
             _userContext.IdentityId,
-            cancellationToken
-        );
+            cancellationToken);
         if (user is null)
             return Result.Failure<UserResponse>(UserErrors.NotFound);
 
