@@ -20,8 +20,7 @@ public sealed class HashedPassword : ValueObject
         if (string.IsNullOrEmpty(password))
             throw new ArgumentException(
                 "Password cannot be empty.", 
-                nameof(password)
-            );
+                nameof(password));
 
         byte[] salt = RandomNumberGenerator.GetBytes(16);
         string hashed = Convert.ToBase64String(KeyDerivation.Pbkdf2(
@@ -29,8 +28,7 @@ public sealed class HashedPassword : ValueObject
             salt: salt,
             prf: KeyDerivationPrf.HMACSHA256,
             iterationCount: 10000,
-            numBytesRequested: 32
-        ));
+            numBytesRequested: 32));
 
         return new HashedPassword($"{Convert.ToBase64String(salt)}.{hashed}");
     }
@@ -49,8 +47,7 @@ public sealed class HashedPassword : ValueObject
             salt: salt,
             prf: KeyDerivationPrf.HMACSHA256,
             iterationCount: 10000,
-            numBytesRequested: 32
-        ));
+            numBytesRequested: 32));
 
         return storedHash == hashed;
     }
@@ -61,16 +58,14 @@ public sealed class HashedPassword : ValueObject
         {
             return Result.Failure<HashedPassword>(new Error(
                 "HashedPassword.Empty",
-                "Password hash cannot be empty."
-            ));
+                "Password hash cannot be empty."));
         }
 
         if (hash.Length < 5)
         {
             return Result.Failure<HashedPassword>(new Error(
                 "HashedPassword.Invalid",
-                "Hashed password format is invalid or too short."
-            ));
+                "Hashed password format is invalid or too short."));
         }
 
         return Result.Success(new HashedPassword(hash));
