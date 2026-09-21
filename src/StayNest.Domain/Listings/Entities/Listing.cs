@@ -22,8 +22,7 @@ public sealed class Listing : BaseEntity
         BathroomCount bathroomCount,
         GuestCount guestCount,
         LocationValue locationValue,
-        Price price
-    ) : base(id)
+        Price price) : base(id)
     {
         UserId = userId;
         Title = title;
