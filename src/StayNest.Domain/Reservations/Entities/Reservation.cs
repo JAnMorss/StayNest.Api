@@ -14,8 +14,7 @@ public sealed class Reservation : BaseEntity
         Guid userId,
         Guid listingId,
         DateRange period,
-        Price totalPrice
-    ) : base(id)
+        Price totalPrice) : base(id)
     {
         UserId = userId;
         ListingId = listingId;
