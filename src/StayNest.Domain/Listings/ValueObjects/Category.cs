@@ -20,16 +20,14 @@ public sealed class Category : ValueObject
         {
             return Result.Failure<Category>(new Error(
                 "Category.Empty",
-                "Category cannot be empty."
-            ));
+                "Category cannot be empty."));
         }
 
         if (category.Length > MaxLength)
         {
             return Result.Failure<Category>(new Error(
                 "Category.TooLong",
-                $"Category cannot exceed {MaxLength} characters."
-            ));
+                $"Category cannot exceed {MaxLength} characters."));
         }
 
         return Result.Success(new Category(category));
