@@ -20,16 +20,14 @@ public sealed class GuestCount : ValueObject
         {
             return Result.Failure<GuestCount>(new Error(
                 "GuestCount.Invalid",
-                "Guest count must be greater than zero."
-            ));
+                "Guest count must be greater than zero."));
         }
 
         if (guestCount > MaxValue)
         {
             return Result.Failure<GuestCount>(new Error(
                 "GuestCount.TooLong",
-                $"Guest count cannot exceed {MaxValue}."
-            ));
+                $"Guest count cannot exceed {MaxValue}."));
         }
 
         return Result.Success(new GuestCount(guestCount));
