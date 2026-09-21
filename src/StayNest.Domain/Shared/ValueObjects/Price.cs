@@ -18,8 +18,7 @@ public sealed class Price : ValueObject
         {
             return Result.Failure<Price>(new Error(
                 "Price.Invalid",
-                "Price must be greater than zero."
-            ));
+                "Price must be greater than zero."));
         }
 
         return Result.Success(new Price(amount));
