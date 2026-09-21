@@ -20,16 +20,14 @@ public sealed class Title : ValueObject
         {
             return Result.Failure<Title>(new Error(
                 "Title.Empty",
-                "Title cannot be empty."
-            ));
+                "Title cannot be empty."));
         }
 
         if (title.Length > MaxLength)
         {
             return Result.Failure<Title>(new Error(
                 "Title.TooLong",
-                $"Title cannot exceed {MaxLength} characters"
-            )); 
+                $"Title cannot exceed {MaxLength} characters")); 
         }
 
         return Result.Success(new Title(title));
