@@ -21,6 +21,7 @@ public sealed class Reservation : BaseEntity
         Period = period;
         TotalPrice = totalPrice;
         CreatedAt = DateTime.UtcNow;
+        UpdatedAt = null;
     }
 
     public Guid UserId { get; private set; }
@@ -28,6 +29,8 @@ public sealed class Reservation : BaseEntity
     public DateRange Period { get; private set; } = null!;
     public Price TotalPrice { get; private set; }
     public DateTime CreatedAt { get; private set; }
+    public DateTime? UpdatedAt { get; private set; }
+
 
     public User User { get; private set; } = null!;
     public Listing Listing { get; private set; } = null!;
