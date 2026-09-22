@@ -29,8 +29,17 @@ internal sealed class ListingConfiguration : IEntityTypeConfiguration<Listing>
                 .IsRequired();
         });
 
-        builder.OwnsOne(listing => listing.ImageSrc, image =>
+        builder.OwnsMany(listing => listing.ImageSrc, image =>
         {
+            image.ToTable("ListingImages");
+
+            image.WithOwner()
+                .HasForeignKey("ListingId");
+
+            image.Property<Guid>("Id");
+
+            image.HasKey("Id");
+
             image.Property(i => i.Value)
                 .HasColumnName("image_src")
                 .HasMaxLength(500)
@@ -90,5 +99,11 @@ internal sealed class ListingConfiguration : IEntityTypeConfiguration<Listing>
             .WithOne(reservation => reservation.Listing)
             .HasForeignKey(reservation => reservation.ListingId)
             .OnDelete(DeleteBehavior.Restrict);
+
+        builder.Property(p => p.CreatedAt)
+            .IsRequired();
+
+        builder.Property(p => p.UpdatedAt)
+            .IsRequired(false);
     }
 }
