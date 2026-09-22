@@ -20,4 +20,10 @@
     <ProjectReference Include="..\StayNest.SharedKernel\StayNest.SharedKernel.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Listings\Commands\DeleteListing\" />
+    <Folder Include="Listings\Commands\UpdateListing\" />
+    <Folder Include="Listings\Queries\GetListing\" />
+  </ItemGroup>
+
 </Project>
