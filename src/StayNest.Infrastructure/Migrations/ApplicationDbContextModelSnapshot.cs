@@ -72,6 +72,10 @@ namespace StayNest.Infrastructure.Migrations
                         .HasColumnType("datetime2")
                         .HasColumnName("created_at");
 
+                    b.Property<DateTime?>("UpdatedAt")
+                        .HasColumnType("datetime2")
+                        .HasColumnName("updated_at");
+
                     b.Property<Guid>("UserId")
                         .HasColumnType("uniqueidentifier")
                         .HasColumnName("user_id");
@@ -99,6 +103,10 @@ namespace StayNest.Infrastructure.Migrations
                     b.Property<Guid>("ListingId")
                         .HasColumnType("uniqueidentifier")
                         .HasColumnName("listing_id");
+
+                    b.Property<DateTime?>("UpdatedAt")
+                        .HasColumnType("datetime2")
+                        .HasColumnName("updated_at");
 
                     b.Property<Guid>("UserId")
                         .HasColumnType("uniqueidentifier")
@@ -305,11 +313,16 @@ namespace StayNest.Infrastructure.Migrations
                         .IsRequired()
                         .HasConstraintName("fk_listings_user_user_id");
 
-                    b.OwnsOne("StayNest.Domain.Shared.ValueObjects.Image", "ImageSrc", b1 =>
+                    b.OwnsMany("StayNest.Domain.Shared.ValueObjects.Image", "ImageSrc", b1 =>
                         {
-                            b1.Property<Guid>("ListingId")
+                            b1.Property<Guid>("Id")
+                                .ValueGeneratedOnAdd()
                                 .HasColumnType("uniqueidentifier")
                                 .HasColumnName("id");
+
+                            b1.Property<Guid>("ListingId")
+                                .HasColumnType("uniqueidentifier")
+                                .HasColumnName("listing_id");
 
                             b1.Property<string>("Value")
                                 .IsRequired()
@@ -317,13 +330,16 @@ namespace StayNest.Infrastructure.Migrations
                                 .HasColumnType("nvarchar(500)")
                                 .HasColumnName("image_src");
 
-                            b1.HasKey("ListingId");
+                            b1.HasKey("Id");
 
-                            b1.ToTable("listings");
+                            b1.HasIndex("ListingId")
+                                .HasDatabaseName("ix_listing_images_listing_id");
+
+                            b1.ToTable("ListingImages", (string)null);
 
                             b1.WithOwner()
                                 .HasForeignKey("ListingId")
-                                .HasConstraintName("fk_listings_listings_id");
+                                .HasConstraintName("fk_listing_images_listings_listing_id");
                         });
 
                     b.OwnsOne("StayNest.Domain.Shared.ValueObjects.Price", "Price", b1 =>
@@ -498,8 +514,7 @@ namespace StayNest.Infrastructure.Migrations
                     b.Navigation("GuestCount")
                         .IsRequired();
 
-                    b.Navigation("ImageSrc")
-                        .IsRequired();
+                    b.Navigation("ImageSrc");
 
                     b.Navigation("LocationValue")
                         .IsRequired();
