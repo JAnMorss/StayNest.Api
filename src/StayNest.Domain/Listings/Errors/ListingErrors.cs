@@ -19,14 +19,14 @@ public static class ListingErrors
         "Only image and video files are allowed."
     );
 
-    public static readonly Error ListingNotFound = new(
-        "Listing.MediaNotFound",
+    public static readonly Error ImageNotFound = new(
+        "Listing.ImageNotFound",
         "No photos have been uploaded for this property yet."
     );
 
-    public static readonly Error ListingMedia = new(
-        "Listing.InvalidMedia",
-        "The specified media URL is invalid."
+    public static readonly Error InvalidImage = new(
+        "Listing.InvalidImage",
+        "The specified image URL is invalid."
     );
 
 }
