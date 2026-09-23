@@ -37,14 +37,9 @@ public sealed class UploadUserAvatarCommandHandler
     {
         try
         {
-            var user = await _userRepository.GetByIdAsync(
-                _userContext.UserId,
-                cancellationToken);
-
+            var user = await _userRepository.GetByIdAsync(_userContext.UserId, cancellationToken);
             if (user is null)
-            {
                 return Result.Failure(UserErrors.NotFound);
-            }
 
             var existingFileId = user.Image is not null
                 ? Image.ExtractFileIdFromUrl(user.Image.Value)
@@ -96,9 +91,7 @@ public sealed class UploadUserAvatarCommandHandler
         catch (Exception)
         {
             return Result.Failure(
-                new Error(
-                    "Upload.Error",
-                    "An error occurred while uploading the avatar."));
+                new Error("Upload.Error", "An error occurred while uploading the avatar."));
         }
     }
 }
