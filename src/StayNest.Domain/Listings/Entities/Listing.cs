@@ -133,7 +133,7 @@ public sealed class Listing : BaseEntity
     {
         var media = _images.FirstOrDefault(x => x.Value == url);
         if (media is null)
-            return Result.Failure(ListingErrors.ListingNotFound);
+            return Result.Failure(ListingErrors.ImageNotFound);
 
         _images.Remove(media);
 
