@@ -20,6 +20,7 @@ public sealed class GetListingImageQueryHandler
         _listingRepository = listingRepository;
         _userContext = userContext;
     }
+
     public async Task<Result<ListingImageResponse>> Handle(
         GetListingImageQuery request, 
         CancellationToken cancellationToken)
