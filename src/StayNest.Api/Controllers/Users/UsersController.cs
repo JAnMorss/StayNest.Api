@@ -39,8 +39,8 @@ public class UsersController : ApiController
            : HandleFailure(result);
     }
 
-    [AllowAnonymous]
     [HttpPost("register")]
+    [AllowAnonymous]
     public async Task<IActionResult> Register(
         [FromBody] RegisterUserRequest request,
         CancellationToken cancellationToken)
@@ -61,8 +61,8 @@ public class UsersController : ApiController
            )) : HandleFailure(result);
     }
 
-    [AllowAnonymous]
     [HttpPost("login")]
+    [AllowAnonymous]
     public async Task<IActionResult> Login(
         [FromBody] LoginUserRequest request,
         CancellationToken cancellationToken
