@@ -1,16 +1,22 @@
 ﻿using Asp.Versioning;
 using MediatR;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using StayNest.Api.Abstractions;
 using StayNest.Api.Controllers.Listings.Requests;
+using StayNest.Application.Abstractions.PageSize;
 using StayNest.Application.Listings.Commands.AddListing;
 using StayNest.Application.Listings.Commands.DeleteListing;
 using StayNest.Application.Listings.Commands.RemoveListingImage;
 using StayNest.Application.Listings.Commands.UpdateListing;
 using StayNest.Application.Listings.Commands.UploadListingImage;
+using StayNest.Application.Listings.Queries.GetListing;
+using StayNest.Application.Listings.Queries.GetListingById;
 using StayNest.Application.Listings.Queries.GetListingImage;
+using StayNest.Application.Listings.Queries.GetMyListingById;
 using StayNest.Application.Listings.Responses;
 using StayNest.Infrastructure.Authorization;
+using StayNest.SharedKernel.Helpers;
 
 namespace StayNest.Api.Controllers.Listings;
 
@@ -22,6 +28,59 @@ public class ListingController : ApiController
     public ListingController(ISender sender)
         : base(sender)
     {
+    }
+
+    [HttpGet]
+    [AllowAnonymous]
+    public async Task<IActionResult> GetListing(
+        [FromQuery] QueryObject queryObject,
+        CancellationToken cancellationToken)
+    {
+        var query = new GetListingsQuery(queryObject);
+
+        var result = await _sender.Send(query, cancellationToken);
+
+        return result.IsSuccess
+            ? Ok(new ApiResponse<PaginatedResult<ListingResponse>>(
+                result.Value,
+                "Listing retrieved successfully"
+            )) : HandleFailure(result);
+    }
+
+    [HttpGet("{id:guid}")]
+    [AllowAnonymous]
+    public async Task<IActionResult> GetListingById(
+        [FromRoute] Guid id,
+        CancellationToken cancellationToken
+    )
+    {
+        var query = new GetListingByIdQuery(id);
+
+        var result = await _sender.Send(query, cancellationToken);
+
+        return result.IsSuccess
+            ? Ok(new ApiResponse<ListingResponse>(
+                result.Value,
+                "Fetching listing by Id is successfull."
+            )) : HandleFailure(result);
+    }
+
+    [HttpGet("my/{id:guid}")]
+    [HasPermission(Permissions.UsersRead)]
+    public async Task<IActionResult> GetMyListingById(
+        [FromRoute] Guid id,
+        CancellationToken cancellationToken
+    )
+    {
+        var query = new GetMyListingByIdQuery(id);
+
+        var result = await _sender.Send(query, cancellationToken);
+
+        return result.IsSuccess
+            ? Ok(new ApiResponse<ListingResponse>(
+                result.Value,
+                "Fetching my listing by Id is successfull."
+            )) : HandleFailure(result);
     }
 
     [HttpPost]
