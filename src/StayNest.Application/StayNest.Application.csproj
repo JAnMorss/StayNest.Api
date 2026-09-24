@@ -20,8 +20,4 @@
     <ProjectReference Include="..\StayNest.SharedKernel\StayNest.SharedKernel.csproj" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="Listings\Queries\GetListing\" />
-  </ItemGroup>
-
 </Project>
