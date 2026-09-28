@@ -23,8 +23,9 @@ internal sealed class FavoriteConfiguration
             .OnDelete(DeleteBehavior.Cascade);
 
         builder.HasOne(favorite => favorite.Listing)
-            .WithMany()
+            .WithMany(listing => listing.Favorites)
             .HasForeignKey(favorite => favorite.ListingId)
             .OnDelete(DeleteBehavior.Cascade);
+
     }
 }
