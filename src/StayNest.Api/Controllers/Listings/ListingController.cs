@@ -5,8 +5,10 @@ using Microsoft.AspNetCore.Mvc;
 using StayNest.Api.Abstractions;
 using StayNest.Api.Controllers.Listings.Requests;
 using StayNest.Application.Abstractions.PageSize;
+using StayNest.Application.Listings.Commands.AddFavorite;
 using StayNest.Application.Listings.Commands.AddListing;
 using StayNest.Application.Listings.Commands.DeleteListing;
+using StayNest.Application.Listings.Commands.RemoveFavorite;
 using StayNest.Application.Listings.Commands.RemoveListingImage;
 using StayNest.Application.Listings.Commands.UpdateListing;
 using StayNest.Application.Listings.Commands.UploadListingImage;
@@ -14,7 +16,9 @@ using StayNest.Application.Listings.Queries.GetListing;
 using StayNest.Application.Listings.Queries.GetListingById;
 using StayNest.Application.Listings.Queries.GetListingImage;
 using StayNest.Application.Listings.Queries.GetMyListingById;
+using StayNest.Application.Listings.Queries.GetUserFavorites;
 using StayNest.Application.Listings.Responses;
+using StayNest.Domain.Users.Entities;
 using StayNest.Infrastructure.Authorization;
 using StayNest.SharedKernel.Helpers;
 
@@ -198,6 +202,52 @@ public class ListingController : ApiController
 
         return result.IsSuccess
             ? Ok(new ApiResponse("Listing image deleted successfully"))
+            : HandleFailure(result);
+    }
+
+    [HttpGet("favorites")]
+    [HasPermission(Permissions.UsersRead)]
+    public async Task<IActionResult> GetUserFavorites(
+        CancellationToken cancellationToken)
+    {
+        var query = new GetUserFavoritesQuery();
+
+        var result = await _sender.Send(query, cancellationToken);
+
+        return result.IsSuccess
+            ? Ok(new ApiResponse<IList<FavoriteResponse>>(
+                result.Value,
+                "User favorites retrieved successfully"))
+            : HandleFailure(result);
+    }
+
+    [HttpPost("{id:guid}/favorite")]
+    [HasPermission(Permissions.UsersWrite)]
+    public async Task<IActionResult> AddFavorite(
+        [FromRoute] Guid id,
+        CancellationToken cancellationToken)
+    {
+        var command = new AddFavoriteCommand(id);
+
+        var result = await _sender.Send(command, cancellationToken);
+
+        return result.IsSuccess
+            ? Ok(new ApiResponse( "Listing added to favorites successfully"))
+            : HandleFailure(result);
+    }
+
+    [HttpDelete("{id:guid}/favorite")]
+    [HasPermission(Permissions.UsersWrite)]
+    public async Task<IActionResult> RemoveFavorite(
+        [FromRoute] Guid id,
+        CancellationToken cancellationToken)
+    {
+        var command = new RemoveFavoriteCommand(id);
+
+        var result = await _sender.Send(command, cancellationToken);
+
+        return result.IsSuccess
+            ? Ok(new ApiResponse("Listing removed from favorites successfully"))
             : HandleFailure(result);
     }
 }
