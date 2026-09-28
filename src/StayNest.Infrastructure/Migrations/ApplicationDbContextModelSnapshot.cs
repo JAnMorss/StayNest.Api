@@ -286,7 +286,7 @@ namespace StayNest.Infrastructure.Migrations
             modelBuilder.Entity("StayNest.Domain.Favorites.Entities.Favorite", b =>
                 {
                     b.HasOne("StayNest.Domain.Listings.Entities.Listing", "Listing")
-                        .WithMany()
+                        .WithMany("Favorites")
                         .HasForeignKey("ListingId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired()
@@ -709,6 +709,8 @@ namespace StayNest.Infrastructure.Migrations
 
             modelBuilder.Entity("StayNest.Domain.Listings.Entities.Listing", b =>
                 {
+                    b.Navigation("Favorites");
+
                     b.Navigation("Reservations");
                 });
 
