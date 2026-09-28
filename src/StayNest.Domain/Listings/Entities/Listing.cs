@@ -1,4 +1,5 @@
-﻿using StayNest.Domain.Listings.Errors;
+﻿using StayNest.Domain.Favorites.Entities;
+using StayNest.Domain.Listings.Errors;
 using StayNest.Domain.Listings.Events;
 using StayNest.Domain.Listings.ValueObjects;
 using StayNest.Domain.Reservations.Entities;
@@ -54,11 +55,13 @@ public sealed class Listing : BaseEntity
 
     public User User { get; private set; } = null!;
 
+    public ICollection<Favorite> Favorites { get; private set; } = new List<Favorite>();
+
     public IReadOnlyCollection<Reservation> Reservations
         => _reservations.AsReadOnly();
 
     public IReadOnlyCollection<Image> ImageSrc
-        => _images.AsReadOnly();
+        => _images;
 
     public static Result<Listing> Create(
         Guid userId,
