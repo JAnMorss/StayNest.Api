@@ -29,15 +29,12 @@ internal sealed class ListingConfiguration : IEntityTypeConfiguration<Listing>
                 .IsRequired();
         });
 
-        builder.OwnsMany(listing => listing.ImageSrc, image =>
+        builder.OwnsMany(l => l.ImageSrc, image =>
         {
             image.ToTable("ListingImages");
-
-            image.WithOwner()
-                .HasForeignKey("ListingId");
+            image.WithOwner().HasForeignKey("ListingId");
 
             image.Property<Guid>("Id");
-
             image.HasKey("Id");
 
             image.Property(i => i.Value)
@@ -105,5 +102,9 @@ internal sealed class ListingConfiguration : IEntityTypeConfiguration<Listing>
 
         builder.Property(p => p.UpdatedAt)
             .IsRequired(false);
+
+        builder.Navigation(l => l.ImageSrc)
+           .HasField("_images")
+           .UsePropertyAccessMode(PropertyAccessMode.Field);
     }
 }
