@@ -23,6 +23,8 @@ public sealed class ListingResponse
 
     public List<string> ImageUrls { get; set; } = new();
 
+    public List<FavoriteResponse> Favorites { get; set; } = new();
+
     public static ListingResponse FromEntity(Listing listing)
     {
         return new ListingResponse
@@ -46,6 +48,10 @@ public sealed class ListingResponse
 
             ImageUrls = listing.ImageSrc
                 .Select(image => image.Value)
+                .ToList(),
+
+            Favorites = listing.Favorites
+                .Select(f => FavoriteResponse.FromEntity(f))
                 .ToList()
         };
     }
