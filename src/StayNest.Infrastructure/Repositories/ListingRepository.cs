@@ -1,4 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using StayNest.Domain.Favorites.Entities;
 using StayNest.Domain.Listings.Entities;
 using StayNest.Domain.Listings.Interface;
 using StayNest.Infrastructure.Repositories.Base;
@@ -26,7 +27,9 @@ internal sealed class ListingRepository
             query = query.Where(e => e.UserId == userId.Value);
         }
 
-        return query.Include(e => e.User);
+        return query
+            .Include(e => e.User)
+            .Include(l => l.Favorites);
     }
 
     protected override IQueryable<Listing> ApplySorting(
@@ -71,4 +74,52 @@ internal sealed class ListingRepository
 
         return query;
     }
+
+    public async Task AddFavoriteAsync(
+        Guid userId, 
+        Guid listingId, 
+        CancellationToken cancellationToken = default)
+    {
+        var favorite = new Favorite(userId, listingId);
+
+        _context.Set<Favorite>().Add(favorite);
+
+        await _context.SaveChangesAsync(cancellationToken);
+    }
+
+    public async Task RemoveFavoriteAsync(
+        Guid userId, 
+        Guid listingId, 
+        CancellationToken cancellationToken = default)
+    {
+        var favorite = await _context.Set<Favorite>()
+            .FirstOrDefaultAsync(f => f.UserId == userId && f.ListingId == listingId, cancellationToken);
+
+        if (favorite is not null)
+        {
+            _context.Set<Favorite>().Remove(favorite);
+
+            await _context.SaveChangesAsync(cancellationToken);
+        }
+    }
+
+    public async Task<bool> IsFavoritedAsync(
+        Guid userId, 
+        Guid listingId,
+        CancellationToken cancellationToken = default)
+    {
+        return await _context.Set<Favorite>()
+            .AnyAsync(f => f.UserId == userId && f.ListingId == listingId, cancellationToken);
+    }
+
+    public async Task<IList<Favorite>> GetUserFavoritesAsync(
+        Guid userId,
+        CancellationToken cancellationToken = default)
+    {
+        return await _context.Set<Favorite>()
+            .Include(f => f.Listing)
+            .Where(f => f.UserId == userId)
+            .ToListAsync(cancellationToken);
+    }
+
 }
