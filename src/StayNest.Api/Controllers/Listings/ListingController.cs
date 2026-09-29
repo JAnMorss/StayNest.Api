@@ -221,7 +221,7 @@ public class ListingController : ApiController
             : HandleFailure(result);
     }
 
-    [HttpPost("{id:guid}/favorite")]
+    [HttpPost("{id:guid}/favorites")]
     [HasPermission(Permissions.UsersWrite)]
     public async Task<IActionResult> AddFavorite(
         [FromRoute] Guid id,
@@ -236,7 +236,7 @@ public class ListingController : ApiController
             : HandleFailure(result);
     }
 
-    [HttpDelete("{id:guid}/favorite")]
+    [HttpDelete("{id:guid}/favorites")]
     [HasPermission(Permissions.UsersWrite)]
     public async Task<IActionResult> RemoveFavorite(
         [FromRoute] Guid id,
