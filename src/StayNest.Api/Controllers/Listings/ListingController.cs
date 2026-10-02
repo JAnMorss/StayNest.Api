@@ -155,7 +155,7 @@ public class ListingController : ApiController
     }
 
     [HttpGet("{id:guid}/image")]
-    [HasPermission(Permissions.UsersRead)]
+    [AllowAnonymous]
     public async Task<IActionResult> GetListingImage(
         [FromRoute] Guid id,
         CancellationToken cancellationToken)
