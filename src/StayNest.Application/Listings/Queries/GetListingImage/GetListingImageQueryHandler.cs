@@ -11,14 +11,10 @@ public sealed class GetListingImageQueryHandler
     : IQueryHandler<GetListingImageQuery, ListingImageResponse>
 {
     private readonly IListingRepository _listingRepository;
-    private readonly IUserContext _userContext;
 
-    public GetListingImageQueryHandler(
-        IListingRepository listingRepository,
-        IUserContext userContext)
+    public GetListingImageQueryHandler(IListingRepository listingRepository)
     {
         _listingRepository = listingRepository;
-        _userContext = userContext;
     }
 
     public async Task<Result<ListingImageResponse>> Handle(
@@ -27,9 +23,6 @@ public sealed class GetListingImageQueryHandler
     {
         var listing = await _listingRepository.GetByIdAsync(request.ListingId, cancellationToken);
         if (listing is null)
-            return Result.Failure<ListingImageResponse>(ListingErrors.NotFound);
-
-        if (listing.UserId != _userContext.UserId)
             return Result.Failure<ListingImageResponse>(ListingErrors.NotFound);
 
         if (!listing.ImageSrc.Any())
