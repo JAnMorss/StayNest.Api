@@ -6,6 +6,7 @@ public sealed class ListingResponse
 {
     public Guid Id { get; set; }
     public Guid UserId { get; set; }
+    public string CreatedBy { get; set; } = null!;
 
     public string Title { get; set; } = null!;
     public string? Description { get; set; }
@@ -31,6 +32,8 @@ public sealed class ListingResponse
         {
             Id = listing.Id,
             UserId = listing.UserId,
+
+            CreatedBy = $"{listing.User.FirstName.Value} {listing.User.LastName.Value}".Trim(),
 
             Title = listing.Title?.Value ?? string.Empty,
             Description = listing.Description?.Value,
