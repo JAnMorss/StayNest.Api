@@ -144,4 +144,21 @@ public sealed class Listing : BaseEntity
 
         return Result.Success();
     }
+    
+    public bool IsAvailable(DateRange period)
+    {
+        return !_reservations.Any(r => r.Period.Overlaps(period));
+    }
+
+    public Result AddReservation(Reservation reservation)
+    {
+        if (!IsAvailable(reservation.Period))
+            return Result.Failure(ListingErrors.ListingNotAvailable);
+
+        _reservations.Add(reservation);
+
+        UpdatedAt = DateTime.UtcNow;
+
+        return Result.Success();
+    }
 }
