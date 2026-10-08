@@ -12,6 +12,7 @@ using StayNest.Application.Abstractions.BlobStorage;
 using StayNest.Application.Abstractions.Caching;
 using StayNest.Domain.Listings.Interface;
 using StayNest.Domain.Reservations.Interface;
+using StayNest.Domain.Reservations.Services;
 using StayNest.Domain.Shared;
 using StayNest.Domain.Users.Interface;
 using StayNest.Infrastructure.Authentication;
@@ -76,6 +77,8 @@ public static class DependencyInjection
         services.AddScoped<IReservationRepository, ReservationRepository>();
 
         services.AddScoped<IUnitOfWork>(sp => sp.GetRequiredService<ApplicationDbContext>());
+
+        services.AddScoped<PricingService>();
 
         services.AddSingleton(x => new BlobServiceClient(configuration.GetConnectionString("BlobStorage")));
 
