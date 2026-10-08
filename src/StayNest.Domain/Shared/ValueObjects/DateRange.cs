@@ -20,6 +20,11 @@ public sealed class DateRange : ValueObject
     public int LengthInDays =>
         (EndDate - StartDate).Days;
 
+    public bool Overlaps(DateRange other)
+    {
+        return StartDate < other.EndDate && EndDate > other.StartDate;
+    }
+
     public static Result<DateRange> Create(
         DateTime startDate,
         DateTime endDate
