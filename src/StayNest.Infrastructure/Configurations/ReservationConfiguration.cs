@@ -13,6 +13,11 @@ internal sealed class ReservationConfiguration
 
         builder.HasKey(reservation => reservation.Id);
 
+        builder.Property(reservation => reservation.Status)
+            .HasConversion<string>()
+            .HasMaxLength(20)
+            .IsRequired();
+
         builder.ComplexProperty(reservation => reservation.Period, period =>
         {
             period.Property(p => p.StartDate)
