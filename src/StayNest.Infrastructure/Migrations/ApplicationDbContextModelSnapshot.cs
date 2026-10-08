@@ -104,6 +104,12 @@ namespace StayNest.Infrastructure.Migrations
                         .HasColumnType("uniqueidentifier")
                         .HasColumnName("listing_id");
 
+                    b.Property<string>("Status")
+                        .IsRequired()
+                        .HasMaxLength(20)
+                        .HasColumnType("nvarchar(20)")
+                        .HasColumnName("status");
+
                     b.Property<DateTime?>("UpdatedAt")
                         .HasColumnType("datetime2")
                         .HasColumnName("updated_at");
