@@ -7,9 +7,11 @@ using StayNest.Api.Controllers.Listings.Requests;
 using StayNest.Application.Abstractions.PageSize;
 using StayNest.Application.Listings.Commands.AddFavorite;
 using StayNest.Application.Listings.Commands.AddListing;
+using StayNest.Application.Listings.Commands.CancelReservation;
 using StayNest.Application.Listings.Commands.DeleteListing;
 using StayNest.Application.Listings.Commands.RemoveFavorite;
 using StayNest.Application.Listings.Commands.RemoveListingImage;
+using StayNest.Application.Listings.Commands.Reserve;
 using StayNest.Application.Listings.Commands.UpdateListing;
 using StayNest.Application.Listings.Commands.UploadListingImage;
 using StayNest.Application.Listings.Queries.GetListing;
@@ -248,6 +250,40 @@ public class ListingController : ApiController
 
         return result.IsSuccess
             ? Ok(new ApiResponse("Listing removed from favorites successfully"))
+            : HandleFailure(result);
+    }
+
+    [HttpPost("{id:guid}/reserve")]
+    [HasPermission(Permissions.UsersWrite)]
+    public async Task<IActionResult> ReserveListing(
+        [FromRoute] Guid id,
+        [FromBody] ReserveRequest request,
+        CancellationToken cancellationToken)
+    {
+        var command = new ReserveCommand(
+            id,
+            request.StartDate,
+            request.EndDate);
+
+        var result = await _sender.Send(command, cancellationToken);
+
+        return result.IsSuccess
+            ? Ok(new ApiResponse("Listing reserved successfully"))
+            : HandleFailure(result);
+    }
+
+    [HttpPost("{id:guid}/cancel-reservation")]
+    [HasPermission(Permissions.UsersWrite)]
+    public async Task<IActionResult> CancelReservation(
+        [FromRoute] Guid id,
+        CancellationToken cancellationToken)
+    {
+        var command = new CancelReservationCommand(id);
+
+        var result = await _sender.Send(command, cancellationToken);
+
+        return result.IsSuccess
+            ? Ok(new ApiResponse("Reservation canceled successfully"))
             : HandleFailure(result);
     }
 }
