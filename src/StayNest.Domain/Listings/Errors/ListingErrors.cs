@@ -29,4 +29,14 @@ public static class ListingErrors
         "The specified image URL is invalid."
     );
 
+    public static readonly Error ListingNotAvailable = new(
+        "Listing.ListingNotAvailable",
+        "The listing is not available for the selected dates."
+    );
+
+    public static readonly Error CannotReserveOwnListing = new(
+        "Reservation.CannotReserveOwnListing",
+        "You cannot reserve your own listing."
+    );
+
 }
