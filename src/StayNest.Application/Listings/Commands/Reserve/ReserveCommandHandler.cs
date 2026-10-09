@@ -61,8 +61,8 @@ public sealed class ReserveCommandHandler
             return Result.Failure(pricingResult.Error);
 
         var reservationResult = Reservation.Create(
-            listing.Id,
             userId,
+            listing.Id,
             period,
             pricingResult.Value);
 
