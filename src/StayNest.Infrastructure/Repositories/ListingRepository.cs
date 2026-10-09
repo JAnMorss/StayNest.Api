@@ -29,7 +29,8 @@ internal sealed class ListingRepository
 
         return query
             .Include(e => e.User)
-            .Include(l => l.Favorites);
+            .Include(l => l.Favorites)
+            .Include(r => r.Reservations);
     }
 
     protected override IQueryable<Listing> ApplySorting(
