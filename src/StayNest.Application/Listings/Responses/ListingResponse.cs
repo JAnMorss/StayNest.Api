@@ -26,6 +26,8 @@ public sealed class ListingResponse
 
     public List<FavoriteResponse> Favorites { get; set; } = new();
 
+    public List<ReservationResponse> Reservations { get; set; } = new();
+
     public static ListingResponse FromEntity(Listing listing)
     {
         return new ListingResponse
@@ -55,6 +57,10 @@ public sealed class ListingResponse
 
             Favorites = listing.Favorites
                 .Select(f => FavoriteResponse.FromEntity(f))
+                .ToList(),
+
+            Reservations = listing.Reservations
+                .Select(r => ReservationResponse.FromEntity(r))
                 .ToList()
         };
     }
