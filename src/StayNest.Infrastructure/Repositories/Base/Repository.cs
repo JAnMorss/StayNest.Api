@@ -76,6 +76,22 @@ internal abstract class Repository<T>
             .ToListAsync(cancellationToken);
     }
 
+    public async Task<IEnumerable<T>> GetAllAsync(
+        QueryObject queryObject,
+        Guid? userId = null,
+        CancellationToken cancellationToken = default)
+    {
+        var query = BuildQuery(_context, queryObject, userId);
+        query = ApplySorting(query, queryObject);
+
+        int skip = (queryObject.Page - 1) * queryObject.PageSize;
+
+        return await query
+            .Skip(skip)
+            .Take(queryObject.PageSize)
+            .ToListAsync(cancellationToken);
+    }
+
     public virtual async Task<T?> GetByIdAsync(
         Guid id,
         CancellationToken cancellationToken = default
