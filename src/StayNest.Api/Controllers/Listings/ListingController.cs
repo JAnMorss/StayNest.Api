@@ -18,9 +18,9 @@ using StayNest.Application.Listings.Queries.GetListing;
 using StayNest.Application.Listings.Queries.GetListingById;
 using StayNest.Application.Listings.Queries.GetListingImage;
 using StayNest.Application.Listings.Queries.GetMyListingById;
+using StayNest.Application.Listings.Queries.GetReservations;
 using StayNest.Application.Listings.Queries.GetUserFavorites;
 using StayNest.Application.Listings.Responses;
-using StayNest.Domain.Users.Entities;
 using StayNest.Infrastructure.Authorization;
 using StayNest.SharedKernel.Helpers;
 
@@ -250,6 +250,23 @@ public class ListingController : ApiController
 
         return result.IsSuccess
             ? Ok(new ApiResponse("Listing removed from favorites successfully"))
+            : HandleFailure(result);
+    }
+
+    [HttpGet("reservations")]
+    [HasPermission(Permissions.UsersRead)]
+    public async Task<IActionResult> GetReservations(
+        [FromQuery] QueryObject queryObject,
+        CancellationToken cancellationToken)
+    {
+        var query = new GetReservationsQuery(queryObject);
+
+        var result = await _sender.Send(query, cancellationToken);
+
+        return result.IsSuccess
+            ? Ok(new ApiResponse<PaginatedResult<ReservationResponse>>(
+                result.Value,
+                "User reservations retrieved successfully"))
             : HandleFailure(result);
     }
 
