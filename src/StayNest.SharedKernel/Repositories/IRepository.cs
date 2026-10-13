@@ -6,6 +6,7 @@ namespace StayNest.SharedKernel.Repositories;
 public interface IRepository<T> where T : BaseEntity
 {
     Task<IEnumerable<T>> GetAllAsync(QueryObject queryObject, CancellationToken cancellationToken = default);
+    Task<IEnumerable<T>> GetAllAsync(QueryObject queryObject, Guid? UserId = null, CancellationToken cancellationToken = default);
     Task<T?> GetByIdAsync(Guid id, CancellationToken cancellationToken = default);
     Task AddAsync(T entity, CancellationToken cancellationToken = default);
     Task UpdateAsync(T entity, CancellationToken cancellationToken = default);
