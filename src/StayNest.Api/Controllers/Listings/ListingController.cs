@@ -289,13 +289,13 @@ public class ListingController : ApiController
             : HandleFailure(result);
     }
 
-    [HttpPost("{id:guid}/cancel-reservation")]
+    [HttpDelete("reservations/{reservationId:guid}")]
     [HasPermission(Permissions.UsersWrite)]
     public async Task<IActionResult> CancelReservation(
-        [FromRoute] Guid id,
+        [FromRoute] Guid reservationId,
         CancellationToken cancellationToken)
     {
-        var command = new CancelReservationCommand(id);
+        var command = new CancelReservationCommand(reservationId);
 
         var result = await _sender.Send(command, cancellationToken);
 
