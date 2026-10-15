@@ -13,16 +13,13 @@ public sealed class CancelReservationCommandHandler
     : ICommandHandler<CancelReservationCommand>
 {
     private readonly IReservationRepository _reservationRepository;
-    private readonly IUserContext _userContext;
     private readonly IUnitOfWork _unitOfWork;
 
     public CancelReservationCommandHandler(
         IReservationRepository reservationRepository,
-        IUserContext userContext,
         IUnitOfWork unitOfWork)
     {
         _reservationRepository = reservationRepository;
-        _userContext = userContext;
         _unitOfWork = unitOfWork;
     }
 
@@ -34,12 +31,7 @@ public sealed class CancelReservationCommandHandler
         if (reservation is null)
             return Result.Failure(ReservationErrors.NotFound);
 
-        if (reservation.UserId != _userContext.UserId)
-            return Result.Failure(ReservationErrors.NotFound);
-
-        var cancelResult = reservation.Cancel();
-        if (cancelResult.IsFailure)
-            return Result.Failure(cancelResult.Error);
+        await _reservationRepository.DeleteAsync(reservation.Id, cancellationToken);
 
         await _unitOfWork.SaveChangesAsync(cancellationToken);
 
