@@ -1,5 +1,4 @@
-﻿using StayNest.Application.Abstractions.Authentication;
-using StayNest.Application.Listings.Responses;
+﻿using StayNest.Application.Listings.Responses;
 using StayNest.Domain.Listings.Errors;
 using StayNest.Domain.Listings.Interface;
 using StayNest.SharedKernel.ErrorHandling;
