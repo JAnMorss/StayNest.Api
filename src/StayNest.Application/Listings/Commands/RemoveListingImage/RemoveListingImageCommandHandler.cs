@@ -1,6 +1,5 @@
 ﻿using StayNest.Application.Abstractions.Authentication;
 using StayNest.Application.Abstractions.BlobStorage;
-using StayNest.Application.Listings.Responses;
 using StayNest.Domain.Listings.Errors;
 using StayNest.Domain.Listings.Interface;
 using StayNest.Domain.Shared;
