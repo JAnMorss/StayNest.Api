@@ -5,5 +5,4 @@ using StayNest.SharedKernel.Messaging.Query;
 
 namespace StayNest.Application.Listings.Queries.GetReservations;
 
-public sealed record GetReservationsQuery(QueryObject? Query) 
-    : IQuery<PaginatedResult<ReservationResponse>>;
+public sealed record GetReservationsQuery(QueryObject? Query) : IQuery<PaginatedResult<ReservationResponse>>;
