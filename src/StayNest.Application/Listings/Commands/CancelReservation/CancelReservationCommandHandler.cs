@@ -1,7 +1,4 @@
-﻿using StayNest.Application.Abstractions.Authentication;
-using StayNest.Domain.Listings.Entities;
-using StayNest.Domain.Listings.Errors;
-using StayNest.Domain.Reservations.Errors;
+﻿using StayNest.Domain.Reservations.Errors;
 using StayNest.Domain.Reservations.Interface;
 using StayNest.Domain.Shared;
 using StayNest.SharedKernel.ErrorHandling;
